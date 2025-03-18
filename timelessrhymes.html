@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook Style Home Page</title>
+    <script>
+        function navigateTo(section) {
+            const content = document.getElementById('content');
+            if (section === 'Timeless Rhymes') {
+                content.innerHTML = `
+                    <h2>${section} Songs</h2>
+                    <div class="song-list">
+                        <h3>Song List Organized by Alphabet</h3>
+                        <ul>
+                            <li>A - Song 1</li>
+                            <li>B - Song 2</li>
+                            <li>C - Song 3</li>
+                            <li>D - Song 4</li>
+                            <li>E - Song 5</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (section === 'About') {
+                content.innerHTML = `
+                    <h2>About TROPITUNES</h2>
+                    <p>TROPITUNES is a platform dedicated to providing a diverse collection of songs for all ages. Our mission is to bring joy and entertainment through music.</p>
+                `;
+            } else {
+                content.innerHTML = `
+                    <h2>${section} Songs</h2>
+                    <p>Welcome to the ${section} songs section!</p>
+                `;
+            }
+            // Hide the title on other pages
+            document.querySelector('.title').style.display = 'none';
+            // Remove the home-page class to remove the background image
+            document.body.classList.remove('home-page');
+        }
+
+        function goHome() {
+            // Reload the page to go back to the home page
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
