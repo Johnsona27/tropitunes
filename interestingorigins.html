@@ -1,0 +1,164 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interesting Origins</title>
+    <!-- Include Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* General Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Roboto', serif;
+            background-color: #ffffff; /* Pastel background */
+            color: #181917;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Icon Container */
+        .icon-container {
+            position: fixed;
+            left: 1rem; 
+            top: 50%;
+            transform: translateY(-50%); 
+            display: flex;
+            flex-direction: column; 
+            gap: 1rem; 
+            z-index: 2;
+        }
+
+        .icon-container i {
+            font-size: 1.5rem; 
+            cursor: pointer;
+            color: #bc412b;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .icon-container i:hover {
+            color: #dc602e;
+            transform: scale(1.2);
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-family:'Flegrei', serif;
+            font-size: 3rem;
+            color: #bc412b;
+            margin: 0;
+        }
+
+        .header p {
+            font-family: 'Crayonize', sans-serif;
+            font-size: 1.2rem;
+            color: #dc602e;
+            margin: 0.5rem 0 0;
+        }
+
+        /* Fact Section */
+        .facts-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .fact {
+            background-color: #fdffc3;
+            border: 2px solid #a5caa5;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 200px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .fact:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .fact img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .fact p {
+            font-size: 1rem;
+            color: #d7b49e;
+            margin: 0;
+        }
+
+        /* Footer Section */
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #181917;
+        }
+    </style>
+    <script>
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</head>
+<body>
+    <!-- Vertical Icon Container -->
+    <div class="icon-container">
+        <i class="fa-solid fa-house" onclick="goHome()" title="Home"></i>
+        <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
+        <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Interesting Origins</h1>
+        <p>Discover the fascinating stories behind these songs.</p>
+    </div>
+
+    <!-- Facts Section -->
+    <div class="facts-container">
+        <div class="fact">
+            <img src="images/fact1.png" alt="Fact 1">
+            <p>This song originated in Jamaica in the 1960s.</p>
+        </div>
+        <div class="fact">
+            <img src="images/fact2.png" alt="Fact 2">
+            <p>The rhythm was inspired by traditional African beats.</p>
+        </div>
+        <div class="fact">
+            <img src="images/fact3.png" alt="Fact 3">
+            <p>This song was first performed at a local festival.</p>
+        </div>
+        <div class="fact">
+            <img src="images/fact4.png" alt="Fact 4">
+            <p>The lyrics were written to celebrate freedom.</p>
+        </div>
+        <div class="fact">
+            <img src="images/fact5.png" alt="Fact 5">
+            <p>This song became a global hit in the 1980s.</p>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        &copy; 2025 Tropitunes. All rights reserved.
+    </div>
+</body>
+</html>

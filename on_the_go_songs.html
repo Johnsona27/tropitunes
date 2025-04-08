@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On-the-Go Songs</title>
+    <!-- Adobe Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #fefaf6;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: #fefaf6;
+            position: relative;
+        }
+
+        .header h1 {
+            font-family: 'Flegrei', sans-serif;
+            font-size: 2.5rem;
+            color: #bc412b;
+        }
+
+        .header-icons {
+            position: fixed;
+            left: 1rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            display: flex;
+            flex-direction: column; 
+            gap: 1rem; 
+            z-index: 2; 
+        }
+
+        .header-icons i {
+            font-size: 1.5rem;
+            color: #bc412b;
+            cursor: pointer;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .header-icons i:hover {
+            color: #ff7043;
+            transform: scale(1.2);
+        }
+
+        /* Grid Layout */
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Card Styles */
+        .song-card {
+            background-color: #d7b49e;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .song-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .song-card h3 {
+            font-family: 'Crayonize', sans-serif; 
+            font-size: 1.5rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .song-card p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .song-card i {
+            font-size: 2rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        /* Hover Effect */
+        .song-card:hover i {
+            color: #fdffc3;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .modal h4 {
+            font-family: 'Crayonize', sans-serif; 
+            font-size: 1.8rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .modal .close-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #bc412b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal .close-btn:hover {
+            background-color: #ff7043;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #fefaf6;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-icons">
+            <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
+            <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
+            <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+        </div>
+    
+       <h1>On-the-Go Songs</h1>
+    </div>
+
+    <!-- Song Grid -->
+    <div class="song-grid">
+        <!-- Card 1 -->
+        <div class="song-card" onclick="showSongDetails(0)">
+            <i class="fa-solid fa-road"></i>
+            <h3>Hol’ ‘Im Joe</h3>
+            <p>Hol’ ‘im Joe, hol’ ‘im Joe...</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="song-card" onclick="showSongDetails(1)">
+            <i class="fa-solid fa-donkey"></i>
+            <h3>Tingalayo</h3>
+            <p>Tingalayo, come little donkey come...</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="song-card" onclick="showSongDetails(2)">
+            <i class="fa-solid fa-tree"></i>
+            <h3>Big Bamboo</h3>
+            <p>I asked my mother what could it be...</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="song-card" onclick="showSongDetails(3)">
+            <i class="fa-solid fa-bus"></i>
+            <h3>Mek Wi Go A Bus Park</h3>
+            <p>Mek wi go a bus park, see if di driver deh...</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="song-card" onclick="showSongDetails(4)">
+            <i class="fa-solid fa-face-surprise"></i>
+            <h3>Mi Cyaan Believe It</h3>
+            <p>Mi cyaan believe it, look weh mi see...</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="song-card" onclick="showSongDetails(5)">
+            <i class="fa-solid fa-dance"></i>
+            <h3>Rookumbine</h3>
+            <p>Rookumbine, rookumbine...</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="songModal"></div>
+    <div class="overlay" onclick="closeModal()"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Tropitunes. All rights reserved.
+    </div>
+
+    <script>
+        const songs = [
+            {
+                title: "Hol’ ‘Im Joe",
+                lyrics: "Hol’ ‘im Joe, hol’ ‘im Joe, Hol’ ‘im Joe, likkle more! Tek weh yuhself and galang home, Yuh too bad fi de classroom!",
+                context: "A classic playground chant with many variations, this song was often used to call out a mischievous classmate or tease a friend. \"Hol’ ‘im Joe\" means \"hold him, Joe!\" — as if to say someone needs to be stopped or calmed down. It’s light-hearted, often improvised, and usually gets laughs.",
+                usage: "Used during: Walks home, after school hangouts, or when someone was acting extra wild or silly."
+            },
+            {
+                title: "Tingalayo",
+                lyrics: "Tingalayo, come little donkey come, Tingalayo, come little donkey come. My donkey walk, my donkey talk, My donkey eat with a knife and fork. Tingalayo, come little donkey come…",
+                context: "Originally from the Afro-Caribbean tradition, this song became popular in various English-speaking islands. \"Tingalayo\" is a nonsense word that's fun to say and easy to repeat. The lyrics are playful and personify a donkey as a funny, smart animal. Great for kids to sing along in groups or solo.",
+                usage: "Used during: Long car rides, walking with siblings, or even during quiet time."
+            },
+            {
+                title: "Big Bamboo (clean version)",
+                lyrics: "I asked my mother what could it be, Something nice for the family. She said it's sweet and shaped like a tree, The big bamboo, that's good for me!<br><br>Chorus:<br>The big bamboo, it grows so tall, The big bamboo, straight and tall, The big bamboo, for one and all, The big bamboo stands strong and tall.",
+                context: "This song is part of Jamaica’s mento tradition — a predecessor to reggae and ska. While the original adult versions sometimes had double meanings, clean versions became playful, sing-song tunes for kids. The bamboo is a symbol of strength and adaptability.",
+                usage: "Used during: Field trips, long walks, or fun singing games."
+            },
+            {
+                title: "Mek Wi Go A Bus Park",
+                lyrics: "Mek wi go a bus park, see if di driver deh, Di driver gone a town, him nuh reach yet. Mek wi wait pon corner, till di bus come back, Mi waan guh granny yard, mi cyaan tek taxi!",
+                context: "This is a made-up chant rooted in Jamaican kids’ real-life experiences with public transportation. Buses are a part of everyday life, and this chant reflects that — often made up on the spot with rhyming lines. It teaches kids rhythm and rhyme, and sometimes becomes a mini-rap session.",
+                usage: "Used during: Waiting for the bus, or playing pretend with friends."
+            },
+            {
+                title: "Mi Cyaan Believe It",
+                lyrics: "Mi cyaan believe it, look weh mi see! Makka inna mango, fly inna tea! Mi cyaan believe it, no sah mi cyaan! Look pon di man inna woman dress pan di lawn!",
+                context: "This chant comes from the common Jamaican expression of disbelief: \"Mi cyaan believe it!\" It's often used when something strange, funny, or exaggerated happens. Kids turn it into rhymes — freestyle style — to entertain each other or roast a situation in a playful way.",
+                usage: "Used during: Freestyle singing, joking around with friends, or storytelling."
+            },
+            {
+                title: "Rookumbine",
+                lyrics: "Rookumbine, rookumbine, Gal a bruk out inna rookumbine! She ah wine, she ah dip, she ah turn ‘pon time, Everybody clap fi di rookumbine!",
+                context: "This chant celebrates dance and rhythm, with \"rookumbine\" possibly being a coined or regional expression that mimics the sound of the beat or movement. It’s all about vibes and groove, with kids clapping along or mimicking dance moves. It may also be used to cheer someone on while they dance or perform in the center of a group.",
+                usage: "Used during: Hype moments, spontaneous dance-offs, or energy boosters during walks or breaks."
+            }
+        ];
+
+        function showSongDetails(index) {
+            const song = songs[index];
+            const modal = document.getElementById("songModal");
+            modal.innerHTML = `
+                <h4>${song.title}</h4>
+                <p><strong>Lyrics:</strong> ${song.lyrics}</p>
+                <p><strong>Context:</strong> ${song.context}</p>
+                <p><strong>Usage:</strong> ${song.usage}</p>
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            `;
+            modal.style.display = "block";
+            document.querySelector(".overlay").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("songModal").style.display = "none";
+            document.querySelector(".overlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>

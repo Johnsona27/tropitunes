@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play & Learn</title>
+    <!-- Adobe Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Crayonize', sans-serif;
+            background-color: #fefaf6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: #fefaf6;
+            position: relative;
+        }
+
+        .header h1 {
+            font-family: 'Flegrei', sans-serif;
+            font-size: 2.5rem;
+            color: #bc412b;
+        }
+
+        .header-icons {
+            position: fixed;
+            left: 1rem; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            display: flex;
+            flex-direction: column; 
+            gap: 1rem; 
+            z-index: 2; 
+        }
+
+        .header-icons i {
+            font-size: 1.5rem;
+            color: #bc412b;
+            cursor: pointer;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .header-icons i:hover {
+            color: #ff7043;
+            transform: scale(1.2);
+        }
+
+        /* Grid Layout */
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        /* Card Styles */
+        .song-card {
+            background-color: #d7b49e;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .song-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .song-card h3 {
+            font-family: 'Flegrei', sans-serif;
+            font-size: 1.5rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .song-card p {
+            font-family: 'Crayonize', sans-serif;
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .modal h4 {
+            font-family: 'Flegrei', sans-serif;
+            font-size: 1.8rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            font-family: 'Crayonize', sans-serif;
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .modal .close-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #bc412b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal .close-btn:hover {
+            background-color: #ff7043;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #fefaf6;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-icons">
+            <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
+            <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
+            <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+        </div>
+        <h1>Play & Learn</h1>
+    </div>
+
+    <!-- Song Grid -->
+    <div class="song-grid">
+        <!-- Card 1 -->
+        <div class="song-card" onclick="showSongDetails(0)">
+            <h3>Days of the Week Song</h3>
+            <p>Sunday, Monday, Tuesday too...</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="song-card" onclick="showSongDetails(1)">
+            <h3>Bim Bam</h3>
+            <p>Bim bam, bim bam, clap your hands...</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="song-card" onclick="showSongDetails(2)">
+            <h3>Count with Me</h3>
+            <p>1, 2, 3 – come count with me...</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="song-card" onclick="showSongDetails(3)">
+            <h3>Alphabet Call-Out</h3>
+            <p>A is for Apple, B is for Ball...</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="song-card" onclick="showSongDetails(4)">
+            <h3>Touch Your...</h3>
+            <p>Touch your head, touch your knees...</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="song-card" onclick="showSongDetails(5)">
+            <h3>Up High, Down Low</h3>
+            <p>Up high, down low, wiggle to the beat...</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="songModal"></div>
+    <div class="overlay" onclick="closeModal()"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Tropitunes. All rights reserved.
+    </div>
+
+    <script>
+        const songs = [
+            {
+                title: "Days of the Week Song",
+                lyrics: "Sunday, Monday, Tuesday too, Wednesday, Thursday just for you. Friday, Saturday that’s the end, Now let’s say them all again!",
+                teaches: "Days of the week, sequence",
+                context: "A staple in Jamaican preschools, this chant is often used during morning circle time to help children learn the weekly cycle. Its repetition and melody make it easy to memorize."
+            },
+            {
+                title: "Bim Bam",
+                lyrics: "Bim bam, bim bam, Clap your hands and say bim bam! Tap your toes and say bim bam! Jump around and say bim bam!",
+                teaches: "Rhythm, coordination, body awareness",
+                context: "Though not originally Jamaican, rhythmic call-and-response clapping chants like this are used across Caribbean classrooms. Perfect for movement breaks, warmups, or energizers."
+            },
+            {
+                title: "Count with Me",
+                lyrics: "1, 2, 3 – come count with me! 4, 5, 6 – do a little twist! 7, 8, 9 – walk in a line 10 – shout it out again!",
+                teaches: "Counting, rhythm, sequencing",
+                context: "Based on the oral tradition of singing while skipping rope or clapping hands, this type of song encourages movement and number learning at the same time — something very common in Caribbean playgrounds."
+            },
+            {
+                title: "Alphabet Call-Out",
+                lyrics: "A is for Apple, B is for Ball C is for Cat and D is for Doll E is for Elephant, F is for Fan Now sing the rest as fast as you can!",
+                teaches: "Letter recognition, phonics",
+                context: "Teachers in Jamaican classrooms often remix the alphabet song using objects kids recognize. It brings language learning to life, especially when paired with hand motions or props."
+            },
+            {
+                title: "Touch Your...",
+                lyrics: "Touch your head, touch your knees, Clap your hands and count by threes! Touch your nose, touch the floor, Spin around and count to four!",
+                teaches: "Body parts, counting, instruction-following",
+                context: "Rooted in kinesthetic learning, this rhyme supports kids in learning how to follow directions while identifying parts of the body. It’s often used in early-childhood games or warm-ups."
+            },
+            {
+                title: "Up High, Down Low",
+                lyrics: "Up high, down low, Wiggle to the beat real slow Jump fast, spin around, Freeze like a statue on the ground!",
+                teaches: "Listening, movement control, tempo",
+                context: "Used for group activities in early school years, songs like this teach body control and rhythm changes — a fun way to help kids regulate energy and pay attention."
+            }
+        ];
+
+        function showSongDetails(index) {
+            const song = songs[index];
+            const modal = document.getElementById("songModal");
+            modal.innerHTML = `
+                <h4>${song.title}</h4>
+                <p><strong>Lyrics:</strong> ${song.lyrics}</p>
+                <p><strong>What it teaches:</strong> ${song.teaches}</p>
+                <p><strong>Context:</strong> ${song.context}</p>
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            `;
+            modal.style.display = "block";
+            document.querySelector(".overlay").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("songModal").style.display = "none";
+            document.querySelector(".overlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>

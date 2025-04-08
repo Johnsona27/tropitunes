@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythmic Claps</title>
+    <!-- Adobe Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Crayonize', sans-serif; 
+            background-color: #fefaf6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: #fefaf6;
+        }
+
+        .header h1 {
+            font-family: 'Flegrei', sans-serif;
+            font-size: 2.5rem;
+            color: #bc412b;
+        }
+
+        /* Icon Container */
+        .header-icons {
+            position: fixed;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 2;
+        }
+
+        .header-icons i {
+            font-size: 1.5rem;
+            color: #bc412b;
+            cursor: pointer;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .header-icons i:hover {
+            color: #ff7043;
+            transform: scale(1.2);
+        }
+
+        /* Grid Layout */
+        .song-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex: 1; 
+        }
+
+        /* Card Styles */
+        .song-card {
+            background-color: #d7b49e;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .song-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .song-card h3 {
+            font-family: 'Crayonize', sans-serif; 
+            font-size: 1.5rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .song-card p {
+            font-family: 'Crayonize', sans-serif; 
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .song-card i {
+            font-size: 2rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .song-card:hover i {
+            color: #fdffc3;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .modal h4 {
+            font-family: 'Flegrei', sans-serif; 
+            font-size: 1.8rem;
+            color: #bc412b;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            font-family: 'Crayonize', sans-serif; 
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .modal .close-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #bc412b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal .close-btn:hover {
+            background-color: #ff7043;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #fefaf6;
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: auto; 
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-icons">
+            <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
+            <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
+            <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+        </div>
+        <h1>Rhythmic Claps</h1>
+    </div>
+
+    <!-- Song Grid -->
+    <div class="song-grid">
+        <!-- Card 1 -->
+        <div class="song-card" onclick="showSongDetails(0)">
+            <i class="fa-solid fa-music"></i>
+            <h3>Chi Chi Bud Oh</h3>
+            <p>Chi chi bud oh, some a dem a holla...</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="song-card" onclick="showSongDetails(1)">
+            <i class="fa-solid fa-hand-sparkles"></i>
+            <h3>Dip and Fall Back</h3>
+            <p>Dip and fall back, clap, clap, clap...</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="song-card" onclick="showSongDetails(2)">
+            <i class="fa-solid fa-circle"></i>
+            <h3>Brown Girl in the Ring</h3>
+            <p>Brown girl in the ring, tra la la la la...</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="song-card" onclick="showSongDetails(3)">
+            <i class="fa-solid fa-crown"></i>
+            <h3>In a Fine Castle</h3>
+            <p>In a fine castle, do as you like to...</p>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="song-card" onclick="showSongDetails(4)">
+            <i class="fa-solid fa-water"></i>
+            <h3>Sally Water</h3>
+            <p>Sally Water, Sally Water, sprinkle on the ground...</p>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="song-card" onclick="showSongDetails(5)">
+            <i class="fa-solid fa-road"></i>
+            <h3>Emanuel Road</h3>
+            <p>Emanuel Road, gal a walk on Emanuel Road...</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="songModal"></div>
+    <div class="overlay" onclick="closeModal()"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Tropitunes. All rights reserved.
+    </div>
+
+    <script>
+        const songs = [
+            {
+                title: "Chi Chi Bud Oh",
+                lyrics: "Chi chi bud oh, some a dem a holla, some a bawl oh!<br>What a something in the mango tree?",
+                context: "This song originates from traditional Jamaican ring games and folk music. The 'Chi Chi Bud' refers to the Bananaquit, a small yellow bird found in the Caribbean.",
+                significance: "The call-and-response structure makes it easy for children to learn and repeat, which is why it remains popular."
+            },
+            {
+                title: "Dip and Fall Back",
+                lyrics: "Dip and fall back, clap, clap, clap!<br>Right han’ ketch the left one, clap, clap, clap!",
+                context: "A popular clapping and movement game from Jamaican schoolyards, often played in pairs or small groups.",
+                significance: "The rhythm is catchy, and the movements involve dipping the body backward slightly while clapping."
+            },
+            {
+                title: "Brown Girl in the Ring",
+                lyrics: "Brown girl in the ring, tra la la la la...<br>She looks like a sugar in a plum, plum, plum!",
+                context: "Originally a Jamaican ring game, this song has African roots and is sung while children form a circle, clapping as one child dances in the center.",
+                significance: "The lyrics celebrate the beauty and presence of the dancer, reinforcing self-expression and cultural pride."
+            },
+            {
+                title: "In a Fine Castle",
+                lyrics: "In a fine castle, do as you like to...<br>Do as you like to, do as you like to!",
+                context: "This song reflects Caribbean storytelling, where children are taught creativity while respecting tradition.",
+                significance: "The game is often led by a 'queen' or 'king' in the center who gets to decide movements while others clap."
+            },
+            {
+                title: "Sally Water",
+                lyrics: "Sally Water, Sally Water, sprinkle on the ground...<br>Rise up, Sally, and let’s go 'round!",
+                context: "A traditional clapping and circle game, likely dating back to the colonial era when enslaved Africans preserved their musical traditions through ring games.",
+                significance: "The game usually involves one child kneeling in the center while others clap and sing."
+            },
+            {
+                title: "Emanuel Road",
+                lyrics: "Emanuel Road, gal a walk on Emanuel Road...<br>A so so kick up, kick up pon Emanuel Road!",
+                context: "This call-and-response clapping song references a symbolic road, likely connected to Emanuel, a biblical or cultural figure.",
+                significance: "The repeated phrases and movement elements make it a fun and lively playground game."
+            }
+        ];
+
+        function showSongDetails(index) {
+            const song = songs[index];
+            const modal = document.getElementById("songModal");
+            modal.innerHTML = `
+                <h4>${song.title}</h4>
+                <p><strong>Lyrics:</strong> ${song.lyrics}</p>
+                <p><strong>Context:</strong> ${song.context}</p>
+                <p><strong>Significance:</strong> ${song.significance}</p>
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            `;
+            modal.style.display = "block";
+            document.querySelector(".overlay").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("songModal").style.display = "none";
+            document.querySelector(".overlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>

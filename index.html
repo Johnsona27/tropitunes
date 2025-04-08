@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tropitunes</title>
+    <!-- Adobe Fonts -->
+    <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Crayonize', sans-serif;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1; /* Take up remaining space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .welcome-text {
+            font-size: 2rem;
+            color: #333;
+            position: absolute;
+            top: 5%; /* Position the "Welcome to" text near the top */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+        .title {
+            font-size: 6rem; 
+            font-weight: bold;
+            color: #333;
+            position: relative;
+            z-index: 1;
+            font-family: 'Flegrei', serif; /* Replace with the actual font name */
+            margin-top: 2rem; /* Add spacing below the welcome text */
+        }
+
+        .title span {
+            cursor: pointer;
+            color: #000000;
+            transition: color 0.3s, transform 0.3s, border-color 0.3s;
+            display: inline-block; 
+        }
+
+        .title span:hover {
+            color: #dc602e;
+            transform: scale(2.2);
+            border-color: #dc602e; 
+        }
+
+        .icon-container {
+            position: fixed;
+            left: 1rem; 
+            top: 50%;
+            transform: translateY(-50%); 
+            display: flex;
+            flex-direction: column; 
+            gap: 1rem;
+            z-index: 2;
+        }
+
+        .icon-container i {
+            font-size: 1.5rem; 
+            cursor: pointer;
+            color: #bc412b;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .icon-container i:hover {
+            color: #dc602e;
+            transform: scale(1.2);
+        }
+
+        /* Doodle Styles */
+        .doodle {
+            position: absolute;
+            z-index: 0; /* Ensure doodles stay below the footer */
+            transition: transform 0.3s, opacity 0.3s;
+            cursor: pointer;
+            visibility: hidden; /* Hide doodles initially */
+        }
+
+        .doodle.show {
+            visibility: visible; /* Show doodles after positioning */
+        }
+
+        .doodle:hover {
+            transform: scale(1.2) rotate(15deg);
+            opacity: 0.8;
+        }
+        .doodle2 {
+            position: fixed;
+            top: 43%; 
+            left: 68%; 
+            transform: translate(-50%, -50%);
+            width: 120px;
+            z-index: 1; 
+            transition: transform 0.3s, opacity 0.3s; /* Add transition for animations */
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #fefaf6;
+            font-size: 0.9rem;
+            color: #777;
+            position: relative; /* Ensure it stays above other elements */
+            z-index: 10; /* Higher z-index to ensure it's above doodles */
+        }
+    </style>
+</head>
+<body class="home-page">
+    <div class="container">
+        <div class="background-image"></div>
+        
+        <!-- Vertical Icon Container -->
+        <div class="icon-container">
+            <i class="fa-solid fa-house" onclick="goHome()" title="Home"></i>
+            <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
+            <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+        </div>
+        
+        <!-- Clickable Title -->
+        <h1 class="title">
+            <a href="timelessrhymes.html" style="text-decoration: none; color: inherit;">
+                <span>T</span>
+            </a>
+            <a href="rhythmisclaps.html" style="text-decoration: none; color: inherit;">
+                <span>R</span>
+            </a>
+            <a href="on_the_go_songs.html" style="text-decoration: none; color: inherit;">
+                <span>O</span>
+            </a>
+            <a href="playandlearn.html" style="text-decoration: none; color: inherit;">
+                <span>P</span>
+            </a>
+            <a href="interestingorigins.html" style="text-decoration: none; color: inherit;">
+                <span>I</span>
+            </a>
+        </h1>
+
+        <!-- Doodles -->
+        <img src="images/doodle1.png" alt="Doodle 1" class="doodle doodle1">
+        <img src="images/doodle2.png" alt="Doodle 2" class="doodle doodle2 show">
+        <img src="images/doodle3.png" alt="Doodle 3" class="doodle doodle3">
+        <img src="images/doodle4.png" alt="Doodle 4" class="doodle doodle4">
+        <img src="images/doodle5.png" alt="Doodle 5" class="doodle doodle5">
+        <img src="images/doodle6.png" alt="Doodle 6" class="doodle doodle6">
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Tropitunes. All rights reserved.
+    </div>
+
+    <script>
+        // Randomize positions for doodles (excluding doodle2)
+        const doodles = document.querySelectorAll('.doodle:not(.doodle2)');
+        const minDistance = 100; // Minimum distance in pixels between doodles
+
+        function getRandomPosition(max) {
+            return Math.random() * max + 10; // Random position between 10% and max%
+        }
+
+        function areDoodlesTooClose(doodle1, doodle2) {
+            const rect1 = doodle1.getBoundingClientRect();
+            const rect2 = doodle2.getBoundingClientRect();
+
+            const dx = rect1.left - rect2.left;
+            const dy = rect1.top - rect2.top;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            return distance < minDistance;
+        }
+
+        function positionDoodles() {
+            // Temporarily disable transitions
+            doodles.forEach(doodle => {
+                doodle.style.transition = 'none';
+            });
+
+            doodles.forEach((doodle, index) => {
+                let randomTop, randomLeft;
+                let isTooClose;
+
+                do {
+                    randomTop = getRandomPosition(70); // Limit top position to 70% to avoid the footer
+                    randomLeft = getRandomPosition(80); // Random left position (10% to 90%)
+                    doodle.style.top = `${randomTop}%`;
+                    doodle.style.left = `${randomLeft}%`;
+
+                    isTooClose = false;
+
+                    // Check if this doodle is too close to any other doodle
+                    for (let i = 0; i < index; i++) {
+                        if (areDoodlesTooClose(doodle, doodles[i])) {
+                            isTooClose = true;
+                            break;
+                        }
+                    }
+                } while (isTooClose);
+
+                // Randomize size
+                const randomSize = Math.random() > 0.5 ? '450px' : '490px'; // 50% chance for small or default size
+                doodle.style.width = randomSize;
+
+                console.log(`Doodle positioned: ${doodle.alt}, Top: ${randomTop}%, Left: ${randomLeft}%, Size: ${randomSize}`);
+            });
+
+            // Re-enable transitions and show doodles after positioning
+            setTimeout(() => {
+                doodles.forEach(doodle => {
+                    doodle.style.transition = 'transform 0.3s, opacity 0.3s';
+                    doodle.classList.add('show'); // Make doodles visible
+                });
+            }, 0);
+        }
+
+        // Add interactivity to doodles
+        doodles.forEach(doodle => {
+            doodle.addEventListener('click', () => {
+                doodle.style.transform = 'scale(1.5) rotate(360deg)';
+                setTimeout(() => {
+                    doodle.style.transform = 'scale(1) rotate(0deg)';
+                }, 500);
+            });
+        });
+
+        // Add interactivity to doodle2
+        const doodle2 = document.querySelector('.doodle2');
+        if (doodle2) {
+            console.log('Doodle 2 found and ready for interaction.');
+            doodle2.classList.add('show');
+        } else {
+            console.error('Doodle 2 not found!');
+        }
+
+        doodle2.addEventListener('click', () => {
+            doodle2.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(360deg)';
+            setTimeout(() => {
+                doodle2.style.transform = 'translate(-50%, -50%)'; // Reset to fixed position
+            }, 500);
+        });
+
+        window.onload = () => {
+            positionDoodles();
+        };
+    </script>
+</body>
+</html>
