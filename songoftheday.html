@@ -1,148 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Song of the Day</title>
-    <!-- Adobe Fonts -->
-    <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Song of the Day</title>
+  
+  <!-- Adobe Fonts -->
+  <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            position: relative;
-        }
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
 
-        .title {
-            font-size: 3rem;
-            font-weight: bold;
-            font-family: 'Flegrei', sans-serif;
-            color: #333;
-            margin-bottom: 1rem;
-        }
-        .icon-container {
-            position: fixed;
-            left: 1rem; 
-            top: 50%;
-            transform: translateY(-50%); 
-            display: flex;
-            flex-direction: column; 
-            gap: 1rem;
-            z-index: 2;
-        }
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'futura-pt', sans-serif;
+      background: linear-gradient(to bottom, #fff5e6, #ffe1c4);
+      height: 100%;
+    }
 
-        .icon-container i {
-            font-size: 1.5rem; 
-            cursor: pointer;
-            color: #bc412b;
-            transition: color 0.3s, transform 0.3s;
-        }
+    .icon-container {
+      position: fixed;
+      left: 1rem; 
+      top: 50%;
+      transform: translateY(-50%); 
+      display: flex;
+      flex-direction: column; 
+      gap: 1rem;
+      z-index: 2;
+    }
 
-        .icon-container i:hover {
-            color: #dc602e;
-            transform: scale(1.2);
-        }
+    .icon-container i {
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: #f25c05;
+      transition: color 0.3s, transform 0.3s;
+    }
 
-        .song-details {
-            font-family: 'Crayonize', sans-serif;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 80%;
-            max-width: 600px;
-        }
+    .icon-container i:hover {
+      color: #ff7b00;
+      transform: scale(1.2);
+    }
 
-        .song-details h2 {
-            font-family: 'Crayonize', sans-serif;
-            font-size: 2rem;
-            color: #007BFF;
-            margin-bottom: 1rem;
-        }
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 1rem;
+    }
 
-        .song-details p {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 1rem;
-        }
+    .title {
+      font-family: 'flegrei', serif;
+      font-size: 3rem;
+      color: #d14b00;
+      margin-bottom: 1rem;
+    }
 
-        .play-button {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.2rem;
-            color: #fff;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
+    .song-details {
+      font-family: 'crayonize';
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 600px;
+    }
 
-        .play-button:hover {
-            background-color: #0056b3;
-        }
+    .song-details h2 {
+      font-size: 2rem;
+      color: #e66400;
+      margin-bottom: 1rem;
+    }
 
-        .home-icon, .about-icon, .song-icon {
-            position: fixed;
-            top: 1.25rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #007BFF;
-            z-index: 2;
-        }
+    .song-details p {
+      font-size: 1.1rem;
+      color: #444;
+      margin: 0.5rem 0;
+    }
 
-        .home-icon {
-            left: 1.25rem;
-        }
+    .play-button {
+      margin-top: 1rem;
+      display: inline-block;
+      padding: 0.8rem 1.6rem;
+      font-size: 1.1rem;
+      color: #fff;
+      background-color: #f25c05;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
 
-        .about-icon {
-            left: 4.25rem;
-        }
+    .play-button:hover {
+      background-color: #cc4a03;
+    }
 
-        .song-icon {
-            left: 7.25rem;
-        }
+    .home-icon, .about-icon, .song-icon {
+      position: fixed;
+      top: 1.25rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #f25c05;
+      z-index: 2;
+    }
 
-        .home-icon:hover, .about-icon:hover, .song-icon:hover {
-            color: #33cfff;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
-    <script>
-        function goHome() {
-            window.location.href = "index.html"; // Navigate back to the home page
-        }
-    </script>
+    .home-icon {
+      left: 1.25rem;
+    }
+
+    .about-icon {
+      left: 4.25rem;
+    }
+
+    .song-icon {
+      left: 7.25rem;
+    }
+
+    .home-icon:hover, .about-icon:hover, .song-icon:hover {
+      color: #ff7b00;
+    }
+  </style>
+
+  <script>
+    function goHome() {
+      window.location.href = "index.html";
+    }
+  </script>
 </head>
 <body>
-    <!-- Home, About, and Song of the Day Icons -->
-    <i class="fa-solid fa-house home-icon" onclick="goHome()"></i>
-    <i class="fa-solid fa-circle-info about-icon" onclick="window.location.href='about.html'"></i>
-    <i class="fa-solid fa-music song-icon" onclick="window.location.href='songoftheday.html'"></i>
 
-    <div class="container">
-        <h1 class="title">Song of the Day</h1>
-        <div class="song-details">
-            <h2>Today's Song: "Island Vibes"</h2>
-            <p><strong>Artist:</strong> Tropical Beats</p>
-            <p><strong>Description:</strong> A soothing melody that captures the essence of the tropics, perfect for relaxing and unwinding.</p>
-            <a href="#" class="play-button">Play Song</a>
-        </div>
+  <!-- Navigation Icons -->
+  <i class="fa-solid fa-house home-icon" onclick="goHome()"></i>
+  <i class="fa-solid fa-circle-info about-icon" onclick="window.location.href='about.html'"></i>
+  <i class="fa-solid fa-music song-icon" onclick="window.location.href='songoftheday.html'"></i>
+
+  <div class="container">
+    <h1 class="title">Song of the Day</h1>
+
+    <div class="song-details">
+      <h2>🎵 "Brown Girl in the Ring"</h2>
+      <p><strong>Category:</strong> Ring Game</p>
+      <p><strong>Origin:</strong> Jamaica</p>
+      <p><strong>Lyrics:</strong>  
+        <br>Brown girl in the ring, tra la la la la  
+        <br>There's a brown girl in the ring, tra la la la la  
+        <br>She looks like a sugar in a plum, plum plum  
+      </p>
+      <p><strong>Description:</strong>  
+        A joyful ring game where one child dances in the middle of the circle, while the others sing and clap. It's often used to celebrate rhythm, movement, and shared joy in Caribbean communities.
+      </p>
+      <a href="#" class="play-button"><i class="fa-solid fa-play"></i> Play Audio</a>
     </div>
+  </div>
 </body>
 </html>
