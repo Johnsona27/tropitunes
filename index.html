@@ -20,7 +20,7 @@
         }
 
         .container {
-            flex: 1; /* Take up remaining space */
+            flex: 1; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -29,25 +29,14 @@
             position: relative;
         }
 
-        .welcome-text {
-            font-size: 2rem;
-            color: #333;
-            position: absolute;
-            top: 5%; /* Position the "Welcome to" text near the top */
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 2;
-        }
-
         .title {
             font-size: 6rem; 
             font-weight: bold;
             color: #333;
             position: relative;
             z-index: 1;
-            font-family: 'Flegrei', serif; /* Replace with the actual font name */
-            margin-top: 2rem; /* Add spacing below the welcome text */
+            font-family: 'Flegrei', serif;
+            margin-top: 3rem; 
         }
 
         .title span {
@@ -92,11 +81,12 @@
             z-index: 0; /* Ensure doodles stay below the footer */
             transition: transform 0.3s, opacity 0.3s;
             cursor: pointer;
-            visibility: hidden; /* Hide doodles initially */
+            visibility: hidden; 
+            width: clamp(50px, 10vw, 120px); /* Adjust doodle size based on screen width */
         }
 
         .doodle.show {
-            visibility: visible; /* Show doodles after positioning */
+            visibility: visible; 
         }
 
         .doodle:hover {
@@ -113,15 +103,14 @@
             transition: transform 0.3s, opacity 0.3s; /* Add transition for animations */
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 1rem 0;
             background-color: #fefaf6;
-            font-size: 0.9rem;
+            font-size: 1.3rem;
             color: #777;
-            position: relative; /* Ensure it stays above other elements */
-            z-index: 10; /* Higher z-index to ensure it's above doodles */
+            position: relative; 
+            z-index: 10; 
         }
     </style>
 </head>

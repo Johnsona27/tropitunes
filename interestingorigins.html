@@ -1,33 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interesting Origins</title>
-    <!-- Include Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Tropitunes</title>
+    <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <style>
         /* General Styles */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Roboto', serif;
-            background-color: #ffffff; /* Pastel background */
-            color: #181917;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Crayonize', sans-serif;
+            scroll-snap-type: y mandatory; 
+            overflow-y: scroll; 
+            background: #fefaf6; 
         }
 
-        /* Icon Container */
+        section {
+            scroll-snap-align: start; 
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #dc602e; 
+            font-family: 'Flegrei', serif; 
+        }
+
+        p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            max-width: 800px;
+            color: #333; 
+            font-family: 'Crayonize', sans-serif;
+            text-align: left; 
+            margin-left: 3rem; 
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-dots a {
+            width: 15px;
+            height: 15px;
+            background: #ffc78f;
+            border: 1.5px solid #fff;
+            border-radius: 50%;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .nav-dots a.active::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background: #dc602e; 
+            border-radius: 50%;
+        }
+
+        /* Icons Section */
         .icon-container {
             position: fixed;
             left: 1rem; 
-            top: 50%;
-            transform: translateY(-50%); 
+            top: 50%; 
+            transform: translateY(-50%);
             display: flex;
-            flex-direction: column; 
-            gap: 1rem; 
+            flex-direction: column;
+            gap: 1rem;
             z-index: 2;
         }
 
@@ -39,126 +100,99 @@
         }
 
         .icon-container i:hover {
-            color: #dc602e;
-            transform: scale(1.2);
-        }
-
-        /* Header Section */
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .header h1 {
-            font-family:'Flegrei', serif;
-            font-size: 3rem;
-            color: #bc412b;
-            margin: 0;
-        }
-
-        .header p {
-            font-family: 'Crayonize', sans-serif;
-            font-size: 1.2rem;
-            color: #dc602e;
-            margin: 0.5rem 0 0;
-        }
-
-        /* Fact Section */
-        .facts-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .fact {
-            background-color: #fdffc3;
-            border: 2px solid #a5caa5;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 200px;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .fact:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        .fact img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-        }
-
-        .fact p {
-            font-size: 1rem;
-            color: #d7b49e;
-            margin: 0;
-        }
-
-        /* Footer Section */
-        .footer {
-            margin-top: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #181917;
+            color: #dc602e; 
+            transform: scale(1.2); 
         }
     </style>
-    <script>
-        function goHome() {
-            window.location.href = 'index.html';
-        }
-    </script>
 </head>
 <body>
-    <!-- Vertical Icon Container -->
+    <!-- Navigation Icons -->
     <div class="icon-container">
-        <i class="fa-solid fa-house" onclick="goHome()" title="Home"></i>
-        <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
-        <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+        <i class="fas fa-home" onclick="window.location.href='index.html'" title="Home" aria-label="Home"></i>
+        <i class="fas fa-info-circle" onclick="window.location.href='about.html'" title="About" aria-label="About"></i>
+        <i class="fas fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day" aria-label="Song of the Day"></i>
     </div>
 
-    <!-- Header Section -->
-    <div class="header">
-        <h1>Interesting Origins</h1>
-        <p>Discover the fascinating stories behind these songs.</p>
+    <!-- Sections -->
+    <section id="section1">
+        <div class="content">
+            <h1>Oral Tradition is the Heartbeat of Childhood Games</h1>
+            <p>In the Caribbean, playground songs and games were rarely written down. Instead, they were passed from child to child, generation to generation, through voice, rhythm, and memory. This oral tradition created a living archive — one where songs would shift slightly depending on the community, the island, or even the group of friends singing them. It’s a powerful reminder that history doesn’t just live in books — it lives in play, in repetition, and in laughter.</p>
+        </div>
+    </section>
+
+    <section id="section2">
+        <div class="content">
+            <h1>Clapping Games Improve Brain Function and Social Skills</h1>
+            <p>Clapping games aren’t just fun — they activate both hemispheres of the brain at once, supporting memory, motor coordination, and pattern recognition. When children sing and clap together, they also learn rhythm, timing, and teamwork. Studies have shown that these kinds of activities even help with literacy and language development — especially in early childhood education.</p>
+        </div>
+    </section>
+
+    <section id="section3">
+        <div class="content">
+            <h1>Songs Were a Way to Build Identity and Belonging</h1>
+            <p>Through shared songs, children in the Caribbean learned where they came from, who they were, and how they fit into a larger community. Singing together created bonds, taught local dialects and values, and built emotional connections. In a region shaped by colonization, migration, and resilience, these games gave children a cultural anchor — something playful, but deeply meaningful.</p>
+        </div>
+    </section>
+
+    <section id="section4">
+        <div class="content">
+            <h1>Playground Games Have Global Roots, Caribbean Flavor</h1>
+            <p>Many of the rhythmic structures and game formats in the Caribbean come from African, European, and Indigenous traditions. Over time, they blended into something new and uniquely Caribbean. This cultural fusion is reflected in the music, lyrics, and movements of the games. For example, a clapping pattern might trace back to West African drumming, while a rhyme’s melody could carry hints of European folk music.</p>
+        </div>
+    </section>
+
+    <section id="section5">
+        <div class="content">
+            <h1>Improvisation is a Big Part of the Fun</h1>
+            <p>Unlike many traditional children’s songs from other parts of the world, Caribbean playground games often leave space for improvisation. Children might insert their own names, make up new verses, or remix lyrics on the fly. This allows for self-expression, storytelling, and a dynamic kind of creativity that keeps the games fresh and personal. It also teaches adaptability — a value deeply embedded in Caribbean cultures.</p>
+        </div>
+    </section>
+
+    <section id="section6">
+        <div class="content">
+            <h1>These Games Carry Emotional and Cultural Memory</h1>
+            <p>Even though they seem simple, many of these games are tied to deep emotional memories. They bring back feelings of safety, freedom, and joy. For children of Caribbean descent growing up in the diaspora, these songs are often one of the first cultural touchstones they remember. That’s why preserving them is so important — they’re not just games, they’re echoes of home.</p>
+        </div>
+    </section>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <a href="#section1" class="active"></a>
+        <a href="#section2"></a>
+        <a href="#section3"></a>
+        <a href="#section4"></a>
+        <a href="#section5"></a>
+        <a href="#section6"></a>
     </div>
 
-    <!-- Facts Section -->
-    <div class="facts-container">
-        <div class="fact">
-            <img src="images/fact1.png" alt="Fact 1">
-            <p>This song originated in Jamaica in the 1960s.</p>
-        </div>
-        <div class="fact">
-            <img src="images/fact2.png" alt="Fact 2">
-            <p>The rhythm was inspired by traditional African beats.</p>
-        </div>
-        <div class="fact">
-            <img src="images/fact3.png" alt="Fact 3">
-            <p>This song was first performed at a local festival.</p>
-        </div>
-        <div class="fact">
-            <img src="images/fact4.png" alt="Fact 4">
-            <p>The lyrics were written to celebrate freedom.</p>
-        </div>
-        <div class="fact">
-            <img src="images/fact5.png" alt="Fact 5">
-            <p>This song became a global hit in the 1980s.</p>
-        </div>
-    </div>
+    <script>
+        // JavaScript to highlight the active navigation dot using IntersectionObserver
+        const sections = document.querySelectorAll('section');
+        const navDots = document.querySelectorAll('.nav-dots a');
 
-    <!-- Footer Section -->
-    <div class="footer">
-        &copy; 2025 Tropitunes. All rights reserved.
-    </div>
+        const observerOptions = {
+            root: null, // Use the viewport as the root
+            threshold: 0.5, // Trigger when 50% of the section is visible
+        };
+
+        const observerCallback = (entries) => {
+            entries.forEach(entry => {
+                const sectionId = entry.target.getAttribute('id');
+                const navDot = document.querySelector(`.nav-dots a[href="#${sectionId}"]`);
+
+                if (entry.isIntersecting) {
+                    // Add 'active' class to the corresponding navigation dot
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    navDot.classList.add('active');
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe each section
+        sections.forEach(section => observer.observe(section));
+    </script>
 </body>
 </html>

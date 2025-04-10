@@ -1,5 +1,4 @@
-/* ...existing code... */
-
+/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -30,4 +29,109 @@
 
 .hidden {
     display: none;
+}
+
+/* Base Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Crayonize', sans-serif;
+    background-color: #fefaf6;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+/* Logo */
+.logo {
+    font-family: 'Flegrei', sans-serif;
+    font-size: 2.5rem;
+    color: #bc412b;
+    border: 2px solid #bc412b;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem auto;
+}
+
+/* Title */
+.title {
+    font-family: 'Flegrei', sans-serif;
+    font-size: 3rem;
+    color: #bc412b;
+    margin-bottom: 1rem;
+}
+
+/* Subtitle */
+.subtitle {
+    font-family: 'Crayonize', sans-serif; 
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+/* Call-to-Action Link */
+.cta-link {
+    font-family: 'Flegrei', sans-serif;
+    font-size: 1.2rem;
+    color: #bc412b;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 2rem;
+    display: inline-block;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.cta-link:hover {
+    color: #ff7043;
+    transform: scale(1.1);
+}
+
+/* Footer */
+.footer {
+    font-family: 'Crayonize', sans-serif; 
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #fefaf6;
+    font-size: 1rem;
+    color: #777;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Breathe Animation */
+@font-face {
+    font-family: 'TheFont';
+    src: url("https://garet.typeforward.com/assets/fonts/shared/TFMixVF.woff2")
+    format('woff2');
+}
+
+.breathe-animation span {
+    font-family: 'TheFont';
+    font-size: clamp(3vw, 5vw, 10vh);
+    color: #bc412b;
+    text-align: center; 
+    animation: letter-breathe 3s ease-in-out infinite;
+}
+
+@keyframes letter-breathe {
+    from,
+    to {
+        font-variation-settings: 'wght' 100;
+    }
+    50% {
+        font-variation-settings: 'wght' 900;
+    }
 }

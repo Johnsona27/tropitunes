@@ -57,7 +57,6 @@
             margin-bottom: 2rem;
         }
 
-        /* Call-to-Action Link */
         .cta-link {
             font-family: 'Flegrei', sans-serif;
             font-size: 1.2rem;
@@ -67,6 +66,7 @@
             margin-top: 2rem;
             display: inline-block;
             transition: color 0.3s, transform 0.3s;
+            bottom: 10;
         }
 
         .cta-link:hover {
@@ -74,17 +74,29 @@
             transform: scale(1.1);
         }
 
-        /* Footer */
-        .footer {
-            font-family: 'Crayonize', sans-serif; 
-            text-align: center;
-            padding: 1rem 0;
-            background-color: #fefaf6;
-            font-size: 1rem;
-            color: #777;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+        /* Breathe Animation */
+        @font-face {
+            font-family: 'TheFont';
+            src: url("https://garet.typeforward.com/assets/fonts/shared/TFMixVF.woff2")
+            format('woff2');
+        }
+
+        .breathe-animation span {
+            font-family: 'TheFont';
+            font-size: clamp(3vw, 5vw, 10vh);
+            color: #bc412b;
+            text-align: center; 
+            animation: letter-breathe 3s ease-in-out infinite;
+        }
+      
+        @keyframes letter-breathe {
+            from,
+            to {
+                font-variation-settings: 'wght' 100;
+            }
+            50% {
+                font-variation-settings: 'wght' 900;
+            }
         }
     </style>
 </head>
@@ -93,8 +105,12 @@
         <!-- Logo -->
         <div class="logo">T</div>
 
+        <!-- Animated Title -->
+        <div class="breathe-animation">
+            <span>Hello, Welcome to Tropitunes!</span>
+        </div>
+
         <!-- Main Content -->
-        <h1 class="title">Hello, Welcome to Tropitunes!</h1>
         <h2 class="subtitle">Preserving the Joy of Caribbean Childhood</h2>
         <p class="subtitle">
             TROPI is a playful, nostalgic space created to preserve and celebrate the childhood songs, clapping games, and playground rhymes from the Caribbean. These traditions have been passed down through generations, echoing through schoolyards, front porches, and family gatherings. As time passes and the world changes, many of these songs are at risk of being forgotten. TROPI was born to keep them alive.
@@ -105,12 +121,7 @@
         <p class="subtitle">
             What started as a portfolio project has the potential to grow into a lasting archive. One that evolves with community contributions, new discoveries, and creative updates. TROPI bridges generations through joy, music, and memory. Keeping the spirit of Caribbean childhood alive and dancing.
         </p>
-        <a href="index.html" class="cta-link">Explore Tropitunes</a>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 Tropitunes. All rights reserved.
+        <a href="C:\Users\aliya\Downloads\tropitunesofficial\tropitunes\index.html" class="cta-link">Explore Tropitunes</a>
     </div>
 </body>
 </html>
