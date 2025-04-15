@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7">
     <title>Tropitunes</title>
     <!-- Adobe Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
@@ -14,13 +14,13 @@
             padding: 0;
             height: 100%;
             font-family: 'Crayonize', sans-serif;
-            overflow: hidden; 
+            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
         .container {
-            flex: 1; 
+            flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -30,44 +30,47 @@
         }
 
         .title {
-            font-size: 6rem; 
+            font-size: 8rem; /* Fixed font size */
             font-weight: bold;
             color: #333;
-            position: relative;
+            position: relative; /* Make the title the positioning context */
             z-index: 1;
             font-family: 'Flegrei', serif;
-            margin-top: 3rem; 
+            margin-top: 3vh; /* Adjust spacing based on viewport height */
+            display: inline-block; /* Ensure the title behaves like a block for positioning */
         }
 
         .title span {
             cursor: pointer;
             color: #000000;
             transition: color 0.3s, transform 0.3s, border-color 0.3s;
-            display: inline-block; 
+            display: inline-block;
         }
 
         .title span:hover {
             color: #dc602e;
             transform: scale(2.2);
-            border-color: #dc602e; 
+            border-color: #dc602e;
         }
 
         .icon-container {
             position: fixed;
-            left: 1rem; 
+            left: 1vw; /* Adjust position based on viewport width */
             top: 50%;
-            transform: translateY(-50%); 
+            transform: translateY(-50%);
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;
             gap: 1rem;
             z-index: 2;
         }
 
         .icon-container i {
-            font-size: 1.5rem; 
+            font-size: 1.5rem; /* Use rem for consistent scaling */
             cursor: pointer;
             color: #bc412b;
             transition: color 0.3s, transform 0.3s;
+            touch-action: manipulation;
+            padding: 0.5rem; /* Add padding for easier tapping */
         }
 
         .icon-container i:hover {
@@ -81,26 +84,33 @@
             z-index: 0; /* Ensure doodles stay below the footer */
             transition: transform 0.3s, opacity 0.3s;
             cursor: pointer;
-            visibility: hidden; 
-            width: clamp(50px, 10vw, 120px); /* Adjust doodle size based on screen width */
+            visibility: hidden;
+            width: clamp(5vw, 10vw, 15vw); /* Adjust doodle size based on screen width */
+            touch-action: manipulation;
+            padding: 0.5rem; /* Add padding for easier tapping */
         }
 
         .doodle.show {
-            visibility: visible; 
+            visibility: visible;
         }
 
         .doodle:hover {
-            transform: scale(1.2) rotate(15deg);
+            transform: scale(0.8) rotate(10deg);
             opacity: 0.8;
         }
+
         .doodle2 {
-            position: fixed;
-            top: 43%; 
-            left: 68%; 
+            position: absolute; /* Position relative to the title */
+            top: 40%; /* Center vertically within the title */
+            left: 110%; /* Place it slightly to the right of the title */
             transform: translate(-50%, -50%);
-            width: 120px;
-            z-index: 1; 
-            transition: transform 0.3s, opacity 0.3s; /* Add transition for animations */
+            width: 8vw; 
+            z-index: -1;
+            transition: transform 0.3s, opacity 0.3s; 
+        }
+
+        .title:hover .doodle2 {
+            transform: translate(-50%, -50%) scale(0.5) rotate(2deg); 
         }
 
         .footer {
@@ -109,8 +119,54 @@
             background-color: #fefaf6;
             font-size: 1.3rem;
             color: #777;
-            position: relative; 
-            z-index: 10; 
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 4rem; 
+            }
+
+            .icon-container {
+                left: 0.5vw; /* Move icons closer to the edge */
+                gap: 0.5rem; /* Reduce spacing between icons */
+            }
+
+            .icon-container i {
+                font-size: 1.2rem; /* Reduce icon size */
+            }
+
+            .doodle {
+                width: clamp(4vw, 8vw, 12vw); /* Scale doodles for smaller screens */
+            }
+
+            .doodle2 {
+                width: 8vw; /* Adjust doodle2 size */
+            }
+
+            .footer {
+                font-size: 1rem; /* Reduce footer text size */
+            }
+        }
+
+        /* For very small screens (e.g., phones) */
+        @media (max-width: 480px) {
+            .title {
+                font-size: 4rem; /* Keep the same size for phones */
+            }
+
+            .icon-container {
+                left: 0.3vw; /* Move icons even closer to the edge */
+            }
+
+            .doodle {
+                width: clamp(3vw, 6vw, 10vw); /* Further scale down doodles */
+            }
+
+            .footer {
+                font-size: 0.8rem; /* Further reduce footer text size */
+            }
         }
     </style>
 </head>
@@ -120,9 +176,9 @@
         
         <!-- Vertical Icon Container -->
         <div class="icon-container">
-            <i class="fa-solid fa-house" onclick="goHome()" title="Home"></i>
+            <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
             <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
-            <i class="fa-solid fa-music" onclick="window.location.href='songoftheday.html'" title="Song of the Day"></i>
+            <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song Archive"></i> <!-- Link to Song Archive -->
         </div>
         
         <!-- Clickable Title -->
@@ -142,11 +198,12 @@
             <a href="interestingorigins.html" style="text-decoration: none; color: inherit;">
                 <span>I</span>
             </a>
+            <!-- Doodle 2 -->
+            <img src="images/doodle2.png" alt="Doodle 2" class="doodle2">
         </h1>
 
         <!-- Doodles -->
         <img src="images/doodle1.png" alt="Doodle 1" class="doodle doodle1">
-        <img src="images/doodle2.png" alt="Doodle 2" class="doodle doodle2 show">
         <img src="images/doodle3.png" alt="Doodle 3" class="doodle doodle3">
         <img src="images/doodle4.png" alt="Doodle 4" class="doodle doodle4">
         <img src="images/doodle5.png" alt="Doodle 5" class="doodle doodle5">
@@ -164,7 +221,7 @@
         const minDistance = 100; // Minimum distance in pixels between doodles
 
         function getRandomPosition(max) {
-            return Math.random() * max + 10; // Random position between 10% and max%
+            return Math.random() * max + 5; // Adjust to avoid edges
         }
 
         function areDoodlesTooClose(doodle1, doodle2) {
@@ -189,8 +246,13 @@
                 let isTooClose;
 
                 do {
-                    randomTop = getRandomPosition(70); // Limit top position to 70% to avoid the footer
-                    randomLeft = getRandomPosition(80); // Random left position (10% to 90%)
+                    if (window.innerWidth < 768) {
+                        randomTop = getRandomPosition(50); // Limit top position to 50% for mobile
+                        randomLeft = getRandomPosition(70); // Limit left position to 70% for mobile
+                    } else {
+                        randomTop = getRandomPosition(70); // Limit top position to 70% to avoid the footer
+                        randomLeft = getRandomPosition(80); // Random left position (10% to 90%)
+                    }
                     doodle.style.top = `${randomTop}%`;
                     doodle.style.left = `${randomLeft}%`;
 
@@ -224,7 +286,7 @@
         // Add interactivity to doodles
         doodles.forEach(doodle => {
             doodle.addEventListener('click', () => {
-                doodle.style.transform = 'scale(1.5) rotate(360deg)';
+                doodle.style.transform = 'scale(1.2) rotate(360deg)'; // Reduced scale to 1.2
                 setTimeout(() => {
                     doodle.style.transform = 'scale(1) rotate(0deg)';
                 }, 500);
@@ -241,9 +303,9 @@
         }
 
         doodle2.addEventListener('click', () => {
-            doodle2.style.transform = 'translate(-50%, -50%) scale(1.5) rotate(360deg)';
+            doodle2.style.transform = 'translate(-50%, -50%) scale(1.2) rotate(360deg)'; // Reduced scale to 1.2
             setTimeout(() => {
-                doodle2.style.transform = 'translate(-50%, -50%)'; // Reset to fixed position
+                doodle2.style.transform = 'translate(-50%, -50%)';
             }, 500);
         });
 
