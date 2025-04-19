@@ -3,17 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Song Archive</title>
+  <title>Tropitunes | Song Archive</title>
   <!-- Adobe Fonts -->
   <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- GSAP for animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
 
   <style>
-    /* Global styles */
     :root {
       --background: #fefaf6; 
       --text: #333;
+      --primary: #bc412b;
+      --secondary: #f25c05;
+      --accent: #dc602e;
+      --light: #fff8f0;
+      --dark: #2d2926;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.16);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 24px;
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s ease;
+      --transition-slow: 0.5s ease;
     }
     
     * {
@@ -25,14 +42,45 @@
     body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Crayonize', sans-serif;
+      font-family: 'Roboto', sans-serif;
       background: var(--background);
       color: var(--text);
       scroll-behavior: smooth;
       overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.6;
     }
 
-    /* Hero Section */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Crayonize', sans-serif;
+      line-height: 1.2;
+    }
+
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--background);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+    }
+
+    .preloader-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      animation: bounce 1.5s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
     .hero {
       position: relative;
       width: 100vw;
@@ -42,30 +90,62 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; /* Center the content vertically */
+      justify-content: center;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(45, 41, 38, 0.4);
+      z-index: 2;
     }
 
     .hero-title {
       font-family: 'Flegrei', sans-serif;
-      font-size: 10vw;
+      font-size: clamp(4rem, 10vw, 12rem);
       font-weight: 900;
       line-height: 0.85;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
       text-transform: uppercase;
-      color: #bc412b;
+      color: var(--light);
       margin: 0;
-      z-index: 3; /* Ensure it appears above the image */
+      z-index: 3;
       pointer-events: none;
       user-select: none;
       text-align: center;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1.2s ease-out forwards 0.5s;
+    }
+
+    .hero-title span {
+      display: block;
     }
 
     .hero-caption {
       text-align: center;
-      font-size: 1.2rem;
-      color: #fefaf6;
-      margin-top: 1rem;
-      z-index: 3; /* Ensure it appears above the image */
+      font-size: clamp(1rem, 1.2rem, 1.5rem);
+      color: var(--light);
+      margin-top: 1.5rem;
+      z-index: 3;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1.2s ease-out forwards 0.8s;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .hero-image-container {
@@ -74,37 +154,71 @@
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: 1; /* Ensure it appears behind the text */
+      z-index: 1;
       overflow: hidden;
     }
 
     .hero-image {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* Ensure the image covers the container */
+      object-fit: cover;
+      transform: scale(1.05);
+      animation: zoomOut 10s ease-out forwards;
     }
 
-    /* Header/Navigation */
+    @keyframes zoomOut {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      color: var(--light);
+      font-size: 1.5rem;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeIn 1s ease-out forwards 1.5s, bounce 2s infinite 1.5s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
     header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: var(--background);
       z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.4s ease, box-shadow 0.4s ease;
+      padding: 0.5rem 0;
+    }
+
+    header.scrolled {
+      background: rgba(254, 250, 246, 0.95);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     nav {
       display: flex;
       justify-content: center;
-      padding: 1rem 0;
+      padding: 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     .nav-icons {
       list-style: none;
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       margin: 0;
       padding: 0;
     }
@@ -114,54 +228,86 @@
     }
 
     .nav-icons a {
+      font-family: 'Crayonize', sans-serif; 
       text-decoration: none;
-      color: var(--text);
-      font-size: 1rem;
+      color: var(--light);
+      font-size: 1.1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      transition: color var(--transition-normal), transform var(--transition-normal);
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .scrolled .nav-icons a {
+      color: var(--text);
+    }
+
+    .nav-icons a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--primary);
+      transition: width var(--transition-normal);
     }
 
     .nav-icons a:hover {
-      color: #f25c05; /* Highlight color */
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .nav-icons a:hover::after {
+      width: 100%;
     }
 
     .nav-icons i {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
     }
 
     body {
-      padding-top: 4rem; /* Prevent content from overlapping with the fixed header */
+      padding-top: 0;
     }
 
-    /* Vertical Icon Container Styles */
     .icon-container {
       position: fixed;
-      left: 1vw; /* Adjust position based on viewport width */
+      left: 1.5vw;
       top: 50%;
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      z-index: 9999; /* Ensure it is always on top */
-      pointer-events: auto; /* Allow interaction with the icons */
+      gap: 1.5rem;
+      z-index: 9999;
+      pointer-events: auto;
+      background-color: rgba(254, 250, 246, 0.7);
+      padding: 1rem 0.7rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      animation: fadeIn 1s ease-out forwards 1.2s;
     }
 
     .icon-container i {
-      font-size: 1.5rem; /* Use rem for consistent scaling */
+      font-size: 1.8rem;
       cursor: pointer;
-      color: #bc412b;
-      transition: color 0.3s, transform 0.3s;
+      color: var(--primary);
+      transition: color var(--transition-normal), transform var(--transition-normal);
       touch-action: manipulation;
-      padding: 0.5rem; /* Add padding for easier tapping */
+      padding: 0.5rem;
+      border-radius: 50%;
     }
 
     .icon-container i:hover {
-      color: #dc602e;
-      transform: scale(1.2);
+      color: var(--accent);
+      transform: scale(1.15) translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
 
-    /* Main content */
     .container {
       max-width: 1600px;
       margin: 0 auto;
@@ -184,60 +330,84 @@
     }
     
     .intro-text {
-      font-size: 1rem;
-      line-height: 1.5;
+      font-size: 1.1rem;
+      line-height: 1.6;
       margin-bottom: 1.5rem;
     }
     
     .intro-heading {
+      font-family: 'Crayonize', sans-serif; 
       font-size: 3.5rem;
       font-weight: 500;
       line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
     }
     
     .cta-button {
       display: inline-flex;
       align-items: center;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--text);
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
       text-decoration: none;
-      color: var(--text);
-      font-weight: normal;
+      transition: all var(--transition-normal);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .cta-button:hover {
+      background-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
     }
     
     .arrow {
-      margin-left: 5px;
+      margin-left: 8px;
+      transition: transform var(--transition-normal);
     }
     
-    /* Main sections */
+    .cta-button:hover .arrow {
+      transform: translateX(4px);
+    }
+    
     .section {
       position: relative;
-      padding: 5rem 0;
+      padding: 8rem 0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
+      overflow: hidden;
     }
     
     .section-title-container {
       position: sticky;
-      top: 0;
-      padding-top: 6rem;
+      top: 80px;
       z-index: 2;
-      overflow: visible; /* Ensure titles are not clipped */
+      overflow: visible;
       width: 100%;
+      height: 20vh;
+      margin-bottom: 4rem;
+    }
+    
+    .section-title-link {
+      text-decoration: none;
     }
     
     .section-title {
       font-family: 'Flegrei', sans-serif;
-      font-size: 15vw; 
+      font-size: clamp(4rem, 13vw, 10rem);
       font-weight: 900;
-      color: #bc412b;
+      color: var(--primary);
       text-transform: uppercase;
       line-height: 0.85; 
       opacity: 0;
-      transform: translateX(100%);
-      transition: transform 0.8s ease-out, opacity 0.8s ease-out, font-size 0.8s ease-out;
+      transform: translateX(100px);
+      transition: transform 1s ease-out, opacity 1s ease-out;
+      text-shadow: 2px 2px 0 rgba(220, 96, 46, 0.2);
     }
     
     .section-content {
@@ -246,241 +416,631 @@
       margin-top: 3rem;
     }
     
-    /* Song Card Styles */
     .song-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted for responsiveness */
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.5rem;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
     .song-card {
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
       overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform var(--transition-normal), box-shadow var(--transition-normal);
       text-align: center;
+      position: relative;
+      cursor: pointer;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
     }
 
     .song-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .song-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.7) 100%);
+      z-index: 1;
+      opacity: 0;
+      transition: opacity var(--transition-normal);
+    }
+
+    .song-card:hover::before {
+      opacity: 1;
+    }
+
+    .song-image-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 3px solid var(--primary);
     }
 
     .song-image {
       width: 100%;
-      height: 200px;
+      height: 100%;
       object-fit: cover;
-      border-bottom: 1px solid #ddd;
+      transition: transform var(--transition-normal);
+    }
+
+    .song-card:hover .song-image {
+      transform: scale(1.1);
+    }
+
+    .song-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2.2rem;
+      color: var(--primary);
+      background-color: rgba(255, 255, 255, 0.8);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition-normal), background-color var(--transition-normal);
+      z-index: 3;
+    }
+
+    .song-card:hover .song-icon {
+      transform: scale(1.1) rotate(15deg);
+      background-color: white;
+    }
+
+    .song-card-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
     }
 
     .song-card h3 {
-      font-size: 1.25rem;
+      font-family: 'Crayonize', sans-serif; 
+      font-size: 1.8rem;
       font-weight: 600;
-      color: #333;
-      margin: 1rem 0 0.5rem;
+      color: var(--text);
+      margin: 0 0 0.5rem;
+      transition: color var(--transition-normal);
+    }
+
+    .song-card:hover h3 {
+      color: var(--primary);
     }
 
     .song-card p {
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: #555;
-      margin: 0.5rem 0 1rem;
+      margin: 0.5rem 0;
+      transition: color var(--transition-normal);
     }
-  
+
+    .song-card .play-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: var(--primary);
+      color: white;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity var(--transition-normal), transform var(--transition-normal), background-color var(--transition-normal);
+      z-index: 3;
+    }
+
+    .song-card:hover .play-button {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .song-card .play-button:hover {
+      background-color: var(--accent);
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .category-pill {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: var(--primary);
+      color: white;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      z-index: 3;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: background-color var(--transition-normal);
+    }
+
+    .song-card:hover .category-pill {
+      background-color: var(--accent);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .modal.active {
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--radius-lg);
+      max-width: 700px;
+      width: 90%;
+      position: relative;
+      transform: translateY(30px);
+      opacity: 0;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.8rem;
+      color: #555;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-btn:hover {
+      color: var(--primary);
+      background-color: rgba(0,0,0,0.05);
+    }
+
+    .modal-header {
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1rem;
+    }
+
+    .modal-header h3 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-body {
+      margin-bottom: 2rem;
+    }
+
+    .modal-body p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .modal-body strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .lyrics-container {
+      background-color: var(--light);
+      padding: 1.5rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--primary);
+      margin: 1.5rem 0;
+    }
+
+    audio {
+      margin-top: 1.5rem;
+      width: 100%;
+      max-width: 100%;
+      border-radius: var(--radius-sm);
+    }
+
+    audio::-webkit-media-controls-panel {
+      background-color: var(--light);
+    }
+
+    audio::-webkit-media-controls-play-button {
+      background-color: var(--primary);
+      border-radius: 50%;
+    }
+
+    .song-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .song-info-item {
+      padding: 1rem;
+      background-color: var(--light);
+      border-radius: var(--radius-sm);
+    }
+
+    .song-info-item h4 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
     .footer {
-            font-family: 'Crayonize', sans-serif;
-            text-align: center;
-            padding: 1rem 0;
-            background-color: #fefaf6;
-            font-size: 1.3rem;
-            color: #777;
-            position: relative;
-            z-index: 10;
-        }
+      font-family: 'Crayonize', sans-serif;
+      text-align: center;
+      padding: 2rem 0;
+      background-color: var(--light);
+      font-size: 1.3rem;
+      color: #777;
+      position: relative;
+      z-index: 10;
+      margin-top: 4rem;
+      border-top: 3px solid var(--primary);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    .footer-logo {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: #777;
+      text-decoration: none;
+      transition: color var(--transition-normal);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 1200px) {
+      .song-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 992px) {
+      .section-title {
+        font-size: clamp(4rem, 12vw, 10rem);
+      }
+      
+      .song-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .intro-section {
+        flex-direction: column;
+      }
+      
+      .intro-left, .intro-right {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-icons {
+        gap: 1.5rem;
+      }
+      
+      .nav-icons a {
+        font-size: 0.9rem;
+      }
+      
+      .nav-icons i {
+        font-size: 1.2rem;
+      }
+      
+      .song-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.2rem;
+      }
+      
+      .icon-container {
+        left: 1rem;
+      }
+      
+      .icon-container i {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: clamp(3rem, 8vw, 5rem);
+      }
+      
+      .section-title {
+        font-size: clamp(3rem, 10vw, 8rem);
+      }
+      
+      .song-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .modal-content {
+        padding: 1.5rem;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .song-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-icons {
+        gap: 1rem;
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .stagger-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .stagger-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .stagger-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .stagger-delay-5 {
+      transition-delay: 0.5s;
+    }
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <header>
-    <nav>
-      <ul class="nav-icons">
-        <li><a href="#timeless-rhymes"><i class="fa-solid fa-music"></i> Timeless Rhymes</a></li>
-        <li><a href="#rhythmic-claps"><i class="fa-solid fa-hands-clapping"></i> Rhythmic Claps</a></li>
-        <li><a href="#play-and-learn"><i class="fa-solid fa-book"></i> Play and Learn</a></li>
-        <li><a href="#on-the-go-songs"><i class="fa-solid fa-car"></i> On-the-Go</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- Vertical Icon Container -->
-  <div class="icon-container">
-    <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
-    <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
-    <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song Archive"></i>
+  <!-- Preloader -->
+  <div class="preloader">
+    <i class="fa-solid fa-music preloader-icon"></i>
   </div>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <div class="hero-title">
-      <span>Song</span>
-      <span>Archive</span>
+  <div class="content-wrapper">
+    <!-- Navigation Bar -->
+    <header>
+      <nav>
+        <ul class="nav-icons">
+          <li><a href="#timeless-rhymes"><i class="fa-solid fa-music"></i> Timeless Rhymes</a></li>
+          <li><a href="#rhythmic-claps"><i class="fa-solid fa-hands-clapping"></i> Rhythmic Claps</a></li>
+          <li><a href="#on-the-go-songs"><i class="fa-solid fa-car"></i> On-the-Go</a></li>
+          <li><a href="#play-and-learn"><i class="fa-solid fa-book"></i> Play and Learn</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Vertical Icon Container -->
+    <div class="icon-container">
+      <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
+      <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
+      <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song Archive"></i>
     </div>
-    <div class="hero-caption">Full archive of songs from the Tropitunes website</div>
-    <div class="hero-image-container">
-      <img src="images/childrenplaying.jpg" alt="Children Playing" class="hero-image" />
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-overlay"></div>
+      <h1 class="hero-title">
+        <span>Song</span>
+        <span>Archive</span>
+      </h1>
+      <div class="hero-caption">Explore the complete collection of beautiful cultural rhymes and melodies from Tropitunes</div>
+      <div class="hero-image-container">
+        <img src="images/childrenplaying.jpg" alt="Children Playing" class="hero-image" />
+      </div>
+      <div class="scroll-indicator">
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
     </div>
-  </div>
-    
+
     <!-- Sections with giant scrolling titles -->
     <div class="section" id="timeless-rhymes">
       <div class="section-title-container">
-        <div class="section-title">Timeless Rhymes</div>
+        <a href="timelessrhymes.html" class="section-title-link">
+          <div class="section-title">Timeless Rhymes</div>
+        </a>
       </div>
       <div class="section-content">
         <div class="song-grid">
           <!-- Card 1 -->
-          <div class="song-card" onclick="showSongDetails(0)">
-            <i class="fa-solid fa-music"></i>
-            <h3>Miss Mary Mack</h3>
-            <p>All dressed in black, black, black...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(0)">
+            <div class="song-image-container">
+              <img src="images/missmarymack.png" alt="Miss Mary Mack" class="song-image" />
+              <div class="category-pill">Traditional</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-music"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Miss Mary Mack</h3>
+                <p>All dressed in black, black, black...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 2 -->
-          <div class="song-card" onclick="showSongDetails(1)">
-            <i class="fa-solid fa-leaf"></i>
-            <h3>Linstead Market</h3>
-            <p>Big John, Big John, sell a yam...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(1)">
+            <div class="song-image-container">
+              <img src="images/linsteadmarket.png" alt="Linstead Market" class="song-image" />
+              <div class="category-pill">Folk</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-drum"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Linstead Market</h3>
+                <p>Carry me ackee go a Linstead Market...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 3 -->
-          <div class="song-card" onclick="showSongDetails(2)">
-            <i class="fa-solid fa-dance"></i>
-            <h3>Nana, Nana</h3>
-            <p>Come and dance for me...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(2)">
+            <div class="song-image-container">
+              <img src="images/childrenplaying2.jpeg" alt="Ting a Ling a Ling" class="song-image" />
+              <div class="category-pill">Rhyme</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-bell"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Ting a Ling a Ling</h3>
+                <p>School bell ring, knife and fork ah fight...</p>
+              </div>
+            </div>
           </div>
-
-          <!-- Card 4 -->
-          <div class="song-card" onclick="showSongDetails(3)">
-            <i class="fa-solid fa-bell"></i>
-            <h3>Ding-Dong</h3>
-            <p>Who’s there? I’m coming...</p>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="song-card" onclick="showSongDetails(4)">
-            <i class="fa-solid fa-hand-sparkles"></i>
-            <h3>Roly-Poly</h3>
-            <p>Up, up, up, down, down, down...</p>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="song-card" onclick="showSongDetails(5)">
-            <i class="fa-solid fa-circle"></i>
-            <h3>Skip to My Lou</h3>
-            <p>Skip to my Lou, my darling...</p>
-          </div>
+        </div>
+      </div>
     </div>
-    
+
     <div class="section" id="rhythmic-claps">
       <div class="section-title-container">
-        <div class="section-title">Rhythmic Claps</div>
+        <a href="rhythmisclaps.html" class="section-title-link">
+          <div class="section-title">Rhythmic Claps</div>
+        </a>
       </div>
       <div class="section-content">
-        <!-- Song Grid -->
         <div class="song-grid">
           <!-- Card 1 -->
-          <div class="song-card" onclick="showSongDetails(0)">
-            <i class="fa-solid fa-music"></i>
-            <h3>Chi Chi Bud Oh</h3>
-            <p>Chi chi bud oh, some a dem a holla...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(3)">
+            <div class="song-image-container">
+              <img src="images/chichibambam.jpg" alt="Bam Chi Chi Bam" class="song-image" />
+              <div class="category-pill">Interactive</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-hands-clapping"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Bam Chi Chi Bam</h3>
+                <p>Bam chi, chi, bam, they sing a this song...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 2 -->
-          <div class="song-card" onclick="showSongDetails(1)">
-            <i class="fa-solid fa-hand-sparkles"></i>
-            <h3>Dip and Fall Back</h3>
-            <p>Dip and fall back, clap, clap, clap...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(4)">
+            <div class="song-image-container">
+              <img src="images/childrenplaying3.png" alt="Ring a Ring o' Roses" class="song-image" />
+              <div class="category-pill">Circle Game</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-circle"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Ring a Ring o' Roses</h3>
+                <p>Ring a ring o' roses, A pocket full o' posies...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 3 -->
-          <div class="song-card" onclick="showSongDetails(2)">
-            <i class="fa-solid fa-circle"></i>
-            <h3>Brown Girl in the Ring</h3>
-            <p>Brown girl in the ring, tra la la la la...</p>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="song-card" onclick="showSongDetails(3)">
-            <i class="fa-solid fa-crown"></i>
-            <h3>In a Fine Castle</h3>
-            <p>In a fine castle, do as you like to...</p>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="song-card" onclick="showSongDetails(4)">
-            <i class="fa-solid fa-water"></i>
-            <h3>Sally Water</h3>
-            <p>Sally Water, Sally Water, sprinkle on the ground...</p>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="song-card" onclick="showSongDetails(5)">
-            <i class="fa-solid fa-road"></i>
-            <h3>Emanuel Road</h3>
-            <p>Emanuel Road, gal a walk on Emanuel Road...</p>
-          </div>
-    </div>
-
-    <div class="section" id="play-and-learn">
-      <div class="section-title-container">
-        <div class="section-title">Play and Learn</div>
-      </div>
-      <div class="section-content">
-        <!-- Song Grid -->
-        <div class="song-grid">
-          <!-- Card 1 -->
-          <div class="song-card" onclick="showSongDetails(0)">
-            <i class="fa-solid fa-calendar-days"></i>
-            <h3>Days of the Week Song</h3>
-            <p>Sunday, Monday, Tuesday too...</p>
-          </div>
-
-          <!-- Card 2 -->
-          <div class="song-card" onclick="showSongDetails(1)">
-            <i class="fa-solid fa-hands-clapping"></i>
-            <h3>Bim Bam</h3>
-            <p>Bim bam, bim bam, clap your hands...</p>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="song-card" onclick="showSongDetails(2)">
-            <i class="fa-solid fa-list-ol"></i>
-            <h3>Count with Me</h3>
-            <p>1, 2, 3 – come count with me...</p>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="song-card" onclick="showSongDetails(3)">
-            <i class="fa-solid fa-font"></i>
-            <h3>Alphabet Call-Out</h3>
-            <p>A is for Apple, B is for Ball...</p>
-          </div>
-
-          <!-- Card 5 -->
-          <div class="song-card" onclick="showSongDetails(4)">
-            <i class="fa-solid fa-child"></i>
-            <h3>Touch Your...</h3>
-            <p>Touch your head, touch your knees...</p>
-          </div>
-
-          <!-- Card 6 -->
-          <div class="song-card" onclick="showSongDetails(5)">
-            <i class="fa-solid fa-arrow-up"></i>
-            <h3>Up High, Down Low</h3>
-            <p>Up high, down low, wiggle to the beat...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(5)">
+            <div class="song-image-container">
+              <img src="images/browngirlinaring.jpeg" alt="Brown Girl in the Ring" class="song-image" />
+              <div class="category-pill">Ring Game</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-dance"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Brown Girl in the Ring</h3>
+                <p>Brown girl in the ring, tra la la la la...</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -488,254 +1048,487 @@
 
     <div class="section" id="on-the-go-songs">
       <div class="section-title-container">
-        <div class="section-title">On-the-Go Songs</div>
+        <a href="on_the_go_songs.html" class="section-title-link">
+          <div class="section-title">On-the-Go</div>
+        </a>
       </div>
       <div class="section-content">
-        <!-- Song Grid -->
         <div class="song-grid">
           <!-- Card 1 -->
-          <div class="song-card" onclick="showSongDetails(0)">
-            <img src="images/hol-im-joe.jpg" alt="Hol’ ‘Im Joe" class="song-image">
-            <h3>Hol’ ‘Im Joe</h3>
-            <p>Hol’ ‘im Joe, hol’ ‘im Joe...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(6)">
+            <div class="song-image-container">
+              <img src="images/sammydeado.jpeg" alt="Sammy Dead-O" class="song-image" />
+              <div class="category-pill">Travel</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-road"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Sammy Dead-O</h3>
+                <p>Sammy plant piece o' corn down the gully...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 2 -->
-          <div class="song-card" onclick="showSongDetails(1)">
-            <img src="images/tingalayo.jpg" alt="Tingalayo" class="song-image">
-            <h3>Tingalayo</h3>
-            <p>Tingalayo, come little donkey come...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(7)">
+            <div class="song-image-container">
+              <img src="images/skiptomylou.png" alt="Skip to My Lou" class="song-image" />
+              <div class="category-pill">Dance</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-dance"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Skip to My Lou</h3>
+                <p>Skip, skip, skip to my Lou...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 3 -->
-          <div class="song-card" onclick="showSongDetails(2)">
-            <img src="images/big-bamboo.jpg" alt="Big Bamboo" class="song-image">
-            <h3>Big Bamboo</h3>
-            <p>I asked my mother what could it be...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(8)">
+            <div class="song-image-container">
+              <img src="images/dayo.png" alt="Day-O" class="song-image" />
+              <div class="category-pill">Cultural</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-sun"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Day-O</h3>
+                <p>Day-o, day-o, daylight come and me wan' go home...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="play-and-learn">
+      <div class="section-title-container">
+        <a href="playandlearn.html" class="section-title-link">
+          <div class="section-title">Play & Learn</div>
+        </a>
+      </div>
+      <div class="section-content">
+        <div class="song-grid">
+          <!-- Card 1 -->
+          <div class="song-card fade-in" onclick="showSongDetails(9)">
+            <div class="song-image-container">
+              <img src="images/islandkids6.jpeg" alt="Days of the Week Song" class="song-image" />
+              <div class="category-pill">Time & Calendar</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Days of the Week Song</h3>
+                <p>Sunday, Monday, Tuesday too...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="song-card fade-in" onclick="showSongDetails(10)">
+            <div class="song-image-container">
+              <img src="images/islandkids5.jpeg" alt="Bim Bam" class="song-image" />
+              <div class="category-pill">Movement & Coordination</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-hands-clapping"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Bim Bam</h3>
+                <p>Bim bam, bim bam, Clap your hands...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="song-card fade-in" onclick="showSongDetails(11)">
+            <div class="song-image-container">
+              <img src="images/islandkids4.jpeg" alt="Count with Me" class="song-image" />
+              <div class="category-pill">Numbers & Math</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-sort-numeric-up"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Count with Me</h3>
+                <p>1, 2, 3 – come count with me...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 4 -->
-          <div class="song-card" onclick="showSongDetails(3)">
-            <img src="images/bus-park.jpg" alt="Mek Wi Go A Bus Park" class="song-image">
-            <h3>Mek Wi Go A Bus Park</h3>
-            <p>Mek wi go a bus park, see if di driver deh...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(12)">
+            <div class="song-image-container">
+              <img src="images/islandkids3.jpeg" alt="Alphabet Call-Out" class="song-image" />
+              <div class="category-pill">Language & Literacy</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-font"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Alphabet Call-Out</h3>
+                <p>A is for Apple, B is for Ball...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 5 -->
-          <div class="song-card" onclick="showSongDetails(4)">
-            <img src="images/mi-cyaan-believe-it.jpg" alt="Mi Cyaan Believe It" class="song-image">
-            <h3>Mi Cyaan Believe It</h3>
-            <p>Mi cyaan believe it, look weh mi see...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(13)">
+            <div class="song-image-container">
+              <img src="images/islandkids2.jpeg" alt="Touch Your..." class="song-image" />
+              <div class="category-pill">Body Awareness</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-child"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Touch Your...</h3>
+                <p>Touch your head, touch your knees...</p>
+              </div>
+            </div>
           </div>
 
           <!-- Card 6 -->
-          <div class="song-card" onclick="showSongDetails(5)">
-            <img src="images/rookumbine.jpg" alt="Rookumbine" class="song-image">
-            <h3>Rookumbine</h3>
-            <p>Rookumbine, rookumbine...</p>
+          <div class="song-card fade-in" onclick="showSongDetails(14)">
+            <div class="song-image-container">
+              <img src="images/islandkids1.jpeg" alt="Up High, Down Low" class="song-image" />
+              <div class="category-pill">Movement & Coordination</div>
+              <div class="song-icon">
+                <i class="fa-solid fa-arrows-up-down"></i>
+              </div>
+            </div>
+            <div class="song-card-content">
+              <div>
+                <h3>Up High, Down Low</h3>
+                <p>Up high, down low, Wiggle to the beat...</p>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-      &copy; 2025 Tropitunes. All rights reserved.
+    <!-- Modal -->
+    <div class="modal" id="songModal">
+      <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="modal-header">
+          <h3 id="modal-title">Song Title</h3>
+          <p id="modal-category">Category</p>
+        </div>
+        <div class="modal-body">
+          <p id="modal-description">Description of the song will be displayed here.</p>
+          <div class="lyrics-container">
+            <div id="modal-lyrics">Lyrics will be displayed here.</div>
+          </div>
+          <div class="song-info-grid">
+            <div class="song-info-item">
+              <h4>Origin</h4>
+              <p id="modal-origin">Origin information</p>
+            </div>
+            <div class="song-info-item">
+              <h4>Age Range</h4>
+              <p id="modal-age-range">Age range information</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
   <script>
-    const sections = document.querySelectorAll('.section');
-    const sectionTitles = document.querySelectorAll('.section-title');
-    
-    // Initial check on page load
-    checkVisibility();
-    
-    // Check on scroll
-    window.addEventListener('scroll', checkVisibility);
-    
-    function checkVisibility() {
-      sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        const title = sectionTitles[index];
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        document.querySelector('.preloader').style.opacity = '0';
+        document.querySelector('.preloader').style.visibility = 'hidden';
+      }, 1500);
+
+      // Scroll animations for section titles
+      const sectionTitles = document.querySelectorAll('.section-title');
+      
+      sectionTitles.forEach(title => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateX(0)';
+            } else {
+              entry.target.style.opacity = '0';
+              entry.target.style.transform = 'translateX(100px)';
+            }
+          });
+        }, { threshold: 0.1 });
         
-        // Check if section is in viewport
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          // Calculate how far into the viewport the section is (0 to 1)
-          const scrollProgress = 1 - Math.max(0, Math.min(1, rect.top / (window.innerHeight * 0.7)));
-          
-          // Start moving in from the right when section comes into view
-          title.style.transform = `translateX(${100 - (scrollProgress * 100)}%)`;
-          title.style.opacity = scrollProgress;
-          
-          // Keep the font size consistent with the hero title
-          title.style.fontSize = `10vw`;
-        }
+        observer.observe(title);
       });
-    }
 
-    // Sticky/Parallax effect for the hero image
-    const hero = document.querySelector('.hero');
-    const heroImage = document.getElementById('heroImage');
-    const startOffset = hero.offsetTop + hero.offsetHeight * 0.35;
-    const endOffset = hero.offsetTop + hero.offsetHeight * 0.7
-;
+      // Fade in animations for song cards
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+      
+      fadeElements.forEach(element => {
+        fadeObserver.observe(element);
+      });
 
-    const songs = [
-        {
-            title: "Miss Mary Mack",
-            lyrics: "Miss Mary Mack, Mack, Mack<br>All dressed in black, black, black<br>With silver buttons, buttons, buttons<br>All down her back, back, back.",
-            context: "Miss Mary Mack is one of the most recognizable children's clapping games and rhymes across many Caribbean islands, including Jamaica.",
-            significance: "The rhyme reflects the playful nature of Jamaican childhood and the communal activity of clapping games."
-        },
-        {
-            title: "Linstead Market",
-            lyrics: "Linstead market, Linstead market,<br>Big John, Big John,<br>Sell a yam, sell a yam,<br>Come, come, come.",
-            context: "Linstead Market is a popular Jamaican song that references a real-life market in Linstead, St. Catherine, Jamaica.",
-            significance: "The rhyme evokes the sense of community and tradition in Jamaican culture, especially the importance of markets as social and economic hubs."
-        },
-        {
-            title: "Nana, Nana",
-            lyrics: "Nana, nana, come and dance for me,<br>Let me see you shake your body,<br>Nana, nana, come and dance for me,<br>Let me see you shake your body,<br>Shake it to the left, shake it to the right,<br>Nana, nana, oh what a sight!",
-            context: "Nana, Nana is a song that has been passed down through generations, and it’s commonly sung during playtime. The song’s lyrics encourage movement and dancing, which are a significant part of Jamaican culture.",
-            significance: "The rhyme reflects the importance of music and dance in Jamaican culture, emphasizing fun, physical activity, and the joy of movement."
-        },
-        {
-            title: "Ding-Dong",
-            lyrics: "Ding-dong, ding-dong,<br>Who’s there?<br>I’m coming, I’m coming,<br>I’m coming, I’m coming.",
-            context: "Ding-Dong is another traditional Jamaican nursery rhyme often accompanied by simple actions or motions. It represents the social, playful aspects of Jamaican childhood.",
-            significance: "The rhyme promotes cooperative play and reflects the communal culture of Jamaica, where children often play in groups and share experiences."
-        },
-        {
-            title: "Roly-Poly",
-            lyrics: "Roly-poly, roly-poly,<br>Up, up, up,<br>Down, down, down,<br>Turn around, turn around.<br>Clap, clap, clap,<br>Wave your hands.",
-            context: "Roly-Poly is a popular clapping game, often played in pairs or small groups. The rhyme features actions that correspond to the lyrics, such as clapping, turning around, or waving hands.",
-            significance: "The rhyme underscores the importance of play in childhood development and the role of music in enhancing motor skills and social interaction."
-        },
-        {
-            title: "Skip to My Lou",
-            lyrics: "Skip to my Lou, my darling,<br>Skip to my Lou, my darling,<br>Skip to my Lou, my darling,<br>Skip to my Lou, my darling.",
-            context: "While 'Skip to My Lou' originated in the U.S., it was quickly adopted and adapted in various Caribbean cultures, including Jamaica. The song, often performed during group games, involves children skipping or hopping around in a circle.",
-            significance: "This rhyme is an example of how cultural exchange and adaptation help shape local childhood traditions. The rhythm, movement, and repetition are all key elements of Caribbean songs."
-        },
-        {
-            title: "Chi Chi Bud Oh",
-            lyrics: "Chi chi bud oh, some a dem a holla, some a bawl oh!<br>What a something in the mango tree?",
-            context: "This song originates from traditional Jamaican ring games and folk music. The 'Chi Chi Bud' refers to the Bananaquit, a small yellow bird found in the Caribbean.",
-            significance: "The call-and-response structure makes it easy for children to learn and repeat, which is why it remains popular."
-        },
-        {
-            title: "Dip and Fall Back",
-            lyrics: "Dip and fall back, clap, clap, clap!<br>Right han’ ketch the left one, clap, clap, clap!",
-            context: "A popular clapping and movement game from Jamaican schoolyards, often played in pairs or small groups.",
-            significance: "The rhythm is catchy, and the movements involve dipping the body backward slightly while clapping."
-        },
-        {
-            title: "Brown Girl in the Ring",
-            lyrics: "Brown girl in the ring, tra la la la la...<br>She looks like a sugar in a plum, plum, plum!",
-            context: "Originally a Jamaican ring game, this song has African roots and is sung while children form a circle, clapping as one child dances in the center.",
-            significance: "The lyrics celebrate the beauty and presence of the dancer, reinforcing self-expression and cultural pride."
-        },
-        {
-            title: "In a Fine Castle",
-            lyrics: "In a fine castle, do as you like to...<br>Do as you like to, do as you like to!",
-            context: "This song reflects Caribbean storytelling, where children are taught creativity while respecting tradition.",
-            significance: "The game is often led by a 'queen' or 'king' in the center who gets to decide movements while others clap."
-        },
-        {
-            title: "Sally Water",
-            lyrics: "Sally Water, Sally Water, sprinkle on the ground...<br>Rise up, Sally, and let’s go 'round!",
-            context: "A traditional clapping and circle game, likely dating back to the colonial era when enslaved Africans preserved their musical traditions through ring games.",
-            significance: "The game usually involves one child kneeling in the center while others clap and sing."
-        },
-        {
-            title: "Emanuel Road",
-            lyrics: "Emanuel Road, gal a walk on Emanuel Road...<br>A so so kick up, kick up pon Emanuel Road!",
-            context: "This call-and-response clapping song references a symbolic road, likely connected to Emanuel, a biblical or cultural figure.",
-            significance: "The repeated phrases and movement elements make it a fun and lively playground game."
-        },
-        {
-            title: "Days of the Week Song",
-            lyrics: "Sunday, Monday, Tuesday too, Wednesday, Thursday just for you. Friday, Saturday that’s the end, Now let’s say them all again!",
-            teaches: "Days of the week, sequence",
-            context: "A staple in Jamaican preschools, this chant is often used during morning circle time to help children learn the weekly cycle. Its repetition and melody make it easy to memorize."
-        },
-        {
-            title: "Bim Bam",
-            lyrics: "Bim bam, bim bam, Clap your hands and say bim bam! Tap your toes and say bim bam! Jump around and say bim bam!",
-            teaches: "Rhythm, coordination, body awareness",
-            context: "Though not originally Jamaican, rhythmic call-and-response clapping chants like this are used across Caribbean classrooms. Perfect for movement breaks, warmups, or energizers."
-        },
-        {
-            title: "Count with Me",
-            lyrics: "1, 2, 3 – come count with me! 4, 5, 6 – do a little twist! 7, 8, 9 – walk in a line 10 – shout it out again!",
-            teaches: "Counting, rhythm, sequencing",
-            context: "Based on the oral tradition of singing while skipping rope or clapping hands, this type of song encourages movement and number learning at the same time — something very common in Caribbean playgrounds."
-        },
-        {
-            title: "Alphabet Call-Out",
-            lyrics: "A is for Apple, B is for Ball C is for Cat and D is for Doll E is for Elephant, F is for Fan Now sing the rest as fast as you can!",
-            teaches: "Letter recognition, phonics",
-            context: "Teachers in Jamaican classrooms often remix the alphabet song using objects kids recognize. It brings language learning to life, especially when paired with hand motions or props."
-        },
-        {
-            title: "Touch Your...",
-            lyrics: "Touch your head, touch your knees, Clap your hands and count by threes! Touch your nose, touch the floor, Spin around and count to four!",
-            teaches: "Body parts, counting, instruction-following",
-            context: "Rooted in kinesthetic learning, this rhyme supports kids in learning how to follow directions while identifying parts of the body. It’s often used in early-childhood games or warm-ups."
-        },
-        {
-            title: "Up High, Down Low",
-            lyrics: "Up high, down low, Wiggle to the beat real slow Jump fast, spin around, Freeze like a statue on the ground!",
-            teaches: "Listening, movement control, tempo",
-            context: "Used for group activities in early school years, songs like this teach body control and rhythm changes — a fun way to help kids regulate energy and pay attention."
-        },
-        {
-            title: "Hol’ ‘Im Joe",
-            lyrics: "Hol’ ‘im Joe, hol’ ‘im Joe, Hol’ ‘im Joe, likkle more! Tek weh yuhself and galang home, Yuh too bad fi de classroom!",
-            context: "A classic playground chant with many variations, this song was often used to call out a mischievous classmate or tease a friend. \"Hol’ ‘im Joe\" means \"hold him, Joe!\" — as if to say someone needs to be stopped or calmed down. It’s light-hearted, often improvised, and usually gets laughs.",
-            usage: "Used during: Walks home, after school hangouts, or when someone was acting extra wild or silly."
-        },
-        {
-            title: "Tingalayo",
-            lyrics: "Tingalayo, come little donkey come, Tingalayo, come little donkey come. My donkey walk, my donkey talk, My donkey eat with a knife and fork. Tingalayo, come little donkey come…",
-            context: "Originally from the Afro-Caribbean tradition, this song became popular in various English-speaking islands. \"Tingalayo\" is a nonsense word that's fun to say and easy to repeat. The lyrics are playful and personify a donkey as a funny, smart animal. Great for kids to sing along in groups or solo.",
-            usage: "Used during: Long car rides, walking with siblings, or even during quiet time."
-        },
-        {
-            title: "Big Bamboo (clean version)",
-            lyrics: "I asked my mother what could it be, Something nice for the family. She said it's sweet and shaped like a tree, The big bamboo, that's good for me!<br><br>Chorus:<br>The big bamboo, it grows so tall, The big bamboo, straight and tall, The big bamboo, for one and all, The big bamboo stands strong and tall.",
-            context: "This song is part of Jamaica’s mento tradition — a predecessor to reggae and ska. While the original adult versions sometimes had double meanings, clean versions became playful, sing-song tunes for kids. The bamboo is a symbol of strength and adaptability.",
-            usage: "Used during: Field trips, long walks, or fun singing games."
-        },
-        {
-            title: "Mek Wi Go A Bus Park",
-            lyrics: "Mek wi go a bus park, see if di driver deh, Di driver gone a town, him nuh reach yet. Mek wi wait pon corner, till di bus come back, Mi waan guh granny yard, mi cyaan tek taxi!",
-            context: "This is a made-up chant rooted in Jamaican kids’ real-life experiences with public transportation. Buses are a part of everyday life, and this chant reflects that — often made up on the spot with rhyming lines. It teaches kids rhythm and rhyme, and sometimes becomes a mini-rap session.",
-            usage: "Used during: Waiting for the bus, or playing pretend with friends."
-        },
-        {
-            title: "Mi Cyaan Believe It",
-            lyrics: "Mi cyaan believe it, look weh mi see! Makka inna mango, fly inna tea! Mi cyaan believe it, no sah mi cyaan! Look pon di man inna woman dress pan di lawn!",
-            context: "This chant comes from the common Jamaican expression of disbelief: \"Mi cyaan believe it!\" It's often used when something strange, funny, or exaggerated happens. Kids turn it into rhymes — freestyle style — to entertain each other or roast a situation in a playful way.",
-            usage: "Used during: Freestyle singing, joking around with friends, or storytelling."
-        },
-        {
-            title: "Rookumbine",
-            lyrics: "Rookumbine, rookumbine, Gal a bruk out inna rookumbine! She ah wine, she ah dip, she ah turn ‘pon time, Everybody clap fi di rookumbine!",
-            context: "This chant celebrates dance and rhythm, with \"rookumbine\" possibly being a coined or regional expression that mimics the sound of the beat or movement. It’s all about vibes and groove, with kids clapping along or mimicking dance moves. It may also be used to cheer someone on while they dance or perform in the center of a group.",
-            usage: "Used during: Hype moments, spontaneous dance-offs, or energy boosters during walks or breaks."
+      // Header scroll effect
+      const header = document.querySelector('header');
+      const navLinks = document.querySelectorAll('.nav-icons a');
+      
+      function checkScroll() {
+        if (window.scrollY > 100) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
         }
+      }
+      
+      window.addEventListener('scroll', checkScroll);
+      checkScroll();
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // Scroll indicator click
+      document.querySelector('.scroll-indicator').addEventListener('click', function() {
+        window.scrollTo({
+          top: window.innerHeight,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Song Modal functionality
+    const songData = [
+      {
+        title: "Miss Mary Mack",
+        category: "Traditional",
+        image: "images/missmarymack.png",
+        description: "A classic hand-clapping game song popular among children for generations. The catchy rhythm and easy-to-follow lyrics make it a favorite choice for playground activities.",
+        lyrics: "Miss Mary Mack, Mack, Mack<br>All dressed in black, black, black<br>With silver buttons, buttons, buttons<br>All down her back, back, back.<br><br>She asked her mother, mother, mother<br>For fifty cents, cents, cents<br>To see the elephants, elephants, elephants<br>Jump over the fence, fence, fence.",
+        origin: "United States, early 20th century",
+        ageRange: "4-10 years"
+      },
+      {
+        title: "Linstead Market",
+        category: "Folk Song",
+        image: "images/linsteadmarket.png",
+        description: "A traditional Jamaican folk song about a woman selling ackee fruit at the market in Linstead. This song teaches children about Caribbean culture and commerce.",
+        lyrics: "Carry me ackee go a Linstead Market,<br>Not a quattie wut sell<br>Carry me ackee go a Linstead Market,<br>Not a quattie wut sell<br><br>Lawd what a night, not a bite<br>What a Saturday night<br>Lawd what a night, not a bite<br>What a Saturday night",
+        origin: "Jamaica, traditional",
+        ageRange: "5-12 years"
+      },
+
+      {
+        title: "Ting a Ling a Ling",
+        category: "Ring Game", 
+        image: "images/childrenplaying2.jpeg",
+        lyrics: "Ting a ling a ling<br>School bell ring<br>Knife and fork ah fight fi dumpling",
+        description: "This playful rhyme is part of Jamaican oral tradition and is often recited by children during school or playtime. It uses the onomatopoeic 'ting a ling a ling' to mimic the sound of a school bell, and describes the humorous image of utensils fighting over food, reflecting the creativity and whimsy of Caribbean storytelling traditions.Rhymes like this one reflect Jamaican children's experiences with wit and rhythm. They act as tools for linguistic play, storytelling, and community bonding. These short verses help preserve dialectal expressions and cultural references while entertaining children through generations. The vivid personification of kitchen utensils fighting over dumplings demonstrates the imaginative storytelling that characterizes Caribbean oral traditions.",
+        origin: "Jamaica, traditional",
+        ageRange: "4-9 years"
+      },
+      {
+        title: "Bam Chi Chi Bam",
+        category: "Interactive",
+        image: "images/chichibambam.jpg",
+        description: "This song celebrates the chirping of birds at dawn and their departure as the day begins. It reflects the natural rhythm of life and the beauty of nature's soundtrack. Popular in Caribbean communities, it uses onomatopoeia to mimic bird calls.",
+        lyrics: `Bam chi, chi, bam, they sing a this song,<br>
+            Bam chi, chi, bam, sing all the night long.<br>
+            Bam chi, chi, bam, then just before day,<br>
+            Bam chi, chi, bam, they fly away.<br><br>
+            All the chi chi birds they sing 'til dawn,<br>
+            When the daylight come all the birds are gone.<br>
+            Chi, chi, chi, chi, chi, what a pretty song—<br>
+            That is what them birds are singing all day long.`,
+        origin: "Caribbean, traditional",
+        ageRange: "4-10 years"
+      },
+      {
+        title: "Ring a Ring o' Roses",
+        category: "Circle Game",
+        image: "images/childrenplaying3.png",
+        description: "This ancient activity, probably the first singing game any English-speaking child learns, has defied attempts by scholars to settle upon its origin or its meaning. Historians have suggested that the rhyme stems from the time of the Black Death.",
+        lyrics: "Ring a ring o' roses, A pocket full o' posies,<br> Ashes, ashes, We all fall down.<br> Ashes in the water, ashes in the sea<br> We all jump up with a one, two, three.",
+        origin: "England, traditional",
+        ageRange: "3-8 years"
+      },
+      {
+        title: "Brown Girl in the Ring",
+        category: "Ring Game",
+        image: "images/browngirlinaring.jpeg",
+        description: "Originally a Jamaican ring game, this song has African roots and is sung while children form a circle, clapping as one child dances in the center. The song gained international popularity when it was adapted by Boney M in their 1978 hit song.",
+        lyrics: "Brown girl in the ring, tra la la la la...<br>She looks like a sugar in a plum, plum, plum!",
+        origin: "Jamaica, traditional",
+        ageRange: "5-12 years"
+      },
+      {
+        title: "Sammy Dead-O",
+        category: "Travel",
+        image: "images/sammydeado.jpeg",
+        description: "A topical song about Sammy, a planter whose corn crop mysteriously died. The song reflects cultural beliefs and storytelling traditions in Jamaica.",
+        lyrics: `Sammy plant piece o' corn down the gully. Mm-hmm. And it grow till it kill poor Sammy. Mm-hmm Sammy dead, Sammy dead, Sammy dead-o. Mm-hmm. Sammy dead, Sammy dead, Sammy dead-o. Mm-hmm. Twas a grudge when them branch broke on Sammy. Mm-hmm. Twas a grudge when them branch broke on Sammy. Mm-hmm. Sammy dead, Sammy dead, Sammy dead-o. Mm-hmm. Sammy dead, Sammy dead, Sammy dead-o. Mm-hmm`,
+        origin: "Jamaica, traditional",
+        ageRange: "6-12 years"
+      },
+      {
+        title: "Skip to My Lou",
+        category: "Dance",
+        image: "images/skiptomylou.png",
+        description: "A playful folk song reimagined in Jamaica as a dancehall anthem, showcasing the island's cultural remixing tradition.",
+        lyrics: `Skip, skip, skip to my Lou,<br>
+         Skip, skip, skip to my Lou,<br>
+         Skip, skip, skip to my Lou,<br>
+         Skip to my Lou, my darlin'.<br>
+         Fly's in the buttermilk, shoo, fly, shoo,<br>
+         Fly's in the buttermilk, shoo, fly, shoo,<br>
+         Fly's in the buttermilk, shoo, fly, shoo,<br>
+         Skip to my Lou, my darlin'.`,
+        origin: "United States, adapted in Jamaica",
+        ageRange: "5-10 years"
+      },
+      {
+        title: "Day-O",
+        category: "Cultural",
+        image: "images/dayo.png",
+        description: "A globally recognized song that reflects the lived experiences of Jamaican dock workers and preserves the island’s mento musical heritage.",
+        lyrics: `Day-o, day-o<br>
+         Daylight come and me wan' go home<br>
+         Day, me say day, me say day, me say day, me say day<br>
+         Me say day-o<br>
+         Daylight come and me wan' go home`,
+        origin: "Jamaica, traditional",
+        ageRange: "6-12 years"
+      },
+      {
+        title: "Days of the Week Song",
+        category: "Time & Calendar",
+        image: "images/days_of_the_week.png",
+        description: "A staple in Jamaican preschools, this chant is often used during morning circle time to help children learn the weekly cycle. Its repetition and melody make it easy to memorize.",
+        lyrics: "Sunday, Monday, Tuesday too, Wednesday, Thursday just for you. Friday, Saturday that's the end, Now let's say them all again!",
+        origin: "Jamaica, traditional",
+        ageRange: "3-6 years"
+      },
+      {
+        title: "Bim Bam",
+        category: "Movement & Coordination",
+        image: "images/bim_bam.png",
+        description: "Though not originally Jamaican, rhythmic call-and-response clapping chants like this are used across Caribbean classrooms. Perfect for movement breaks, warmups, or energizers.",
+        lyrics: "Bim bam, bim bam, Clap your hands and say bim bam! Tap your toes and say bim bam! Jump around and say bim bam!",
+        origin: "Caribbean, traditional",
+        ageRange: "3-7 years"
+      },
+      {
+        title: "Count with Me",
+        category: "Numbers & Math",
+        image: "images/count_with_me.png",
+        description: "Based on the oral tradition of singing while skipping rope or clapping hands, this type of song encourages movement and number learning at the same time — something very common in Caribbean playgrounds.",
+        lyrics: "1, 2, 3 – come count with me! 4, 5, 6 – do a little twist! 7, 8, 9 – walk in a line 10 – shout it out again!",
+        origin: "Caribbean, traditional",
+        ageRange: "4-8 years"
+      },
+      {
+        title: "Alphabet Call-Out",
+        category: "Language & Literacy",
+        image: "images/alphabet_call_out.png",
+        description: "Teachers in Jamaican classrooms often remix the alphabet song using objects kids recognize. It brings language learning to life, especially when paired with hand motions or props.",
+        lyrics: "A is for Apple, B is for Ball C is for Cat and D is for Doll E is for Elephant, F is for Fan Now sing the rest as fast as you can!",
+        origin: "Jamaica, traditional",
+        ageRange: "4-7 years"
+      },
+      {
+        title: "Touch Your...",
+        category: "Body Awareness",
+        image: "images/touch_your.png",
+        description: "Rooted in kinesthetic learning, this rhyme supports kids in learning how to follow directions while identifying parts of the body. It's often used in early-childhood games or warm-ups.",
+        lyrics: "Touch your head, touch your knees, Clap your hands and count by threes! Touch your nose, touch the floor, Spin around and count to four!",
+        origin: "Caribbean, traditional",
+        ageRange: "3-6 years"
+      },
+      {
+        title: "Up High, Down Low",
+        category: "Movement & Coordination",
+        image: "images/up_high_down_low.png",
+        description: "Used for group activities in early school years, songs like this teach body control and rhythm changes — a fun way to help kids regulate energy and pay attention.",
+        lyrics: "Up high, down low, Wiggle to the beat real slow Jump fast, spin around, Freeze like a statue on the ground!",
+        origin: "Caribbean, traditional",
+        ageRange: "4-8 years"
+      }
     ];
 
     function showSongDetails(index) {
-        const song = songs[index];
-        const modal = document.getElementById("songModal");
-        modal.innerHTML = `
-            <div class="modal-content">
-              <h4>${song.title}</h4>
-              <p><strong>Lyrics:</strong><br>${song.lyrics}</p>
-              <p><strong>Context:</strong><br>${song.context}</p>
-              <p><strong>Usage:</strong><br>${song.usage}</p>
-              <button class="close-btn" onclick="closeModal()">Close</button>
-            </div>
-          `;
+      const modal = document.getElementById('songModal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalCategory = document.getElementById('modal-category');
+      const modalDescription = document.getElementById('modal-description');
+      const modalLyrics = document.getElementById('modal-lyrics');
+      const modalOrigin = document.getElementById('modal-origin');
+      const modalAgeRange = document.getElementById('modal-age-range');
+
+      const song = songData[index];
+
+      // Populate modal with song data
+      modalTitle.textContent = song.title;
+      modalCategory.textContent = song.category;
+      modalDescription.textContent = song.description;
+      modalLyrics.innerHTML = song.lyrics;
+      modalOrigin.textContent = song.origin;
+      modalAgeRange.textContent = song.ageRange;
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.classList.add('active');
+      }, 10);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('songModal');
+      modal.classList.remove('active');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 500);
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('songModal');
+      if (event.target == modal) {
+        closeModal();
+      }
     }
   </script>
 </body>

@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Flegrei', sans-serif; /* Default font for the page */
+            font-family: 'Flegrei', sans-serif; 
             background-color: #fefaf6;
             color: #333;
             display: flex;
@@ -26,7 +26,7 @@
             padding: 2rem;
         }
 
-        /* Logo */
+
         .logo {
             font-family: 'Flegrei', sans-serif;
             font-size: 2.5rem;
@@ -41,7 +41,6 @@
             margin: 0 auto 2rem auto;
         }
 
-        /* Title */
         .title {
             font-family: 'Flegrei', sans-serif;
             font-size: 3rem;
@@ -49,7 +48,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Subtitle */
         .subtitle {
             font-family: 'Crayonize', sans-serif; 
             font-size: 1.2rem;
@@ -98,9 +96,41 @@
                 font-variation-settings: 'wght' 900;
             }
         }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100%;
+            background-color: #bc412b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .sidebar i {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .sidebar i:hover {
+            color: #ff7043;
+            transform: scale(1.2);
+        }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <i class="fa-solid fa-house" title="Home" onclick="window.location.href='index.html'"></i>
+        <i class="fa-solid fa-circle-info" title="About" onclick="window.location.href='about.html'"></i>
+        <i class="fa-solid fa-music" title="Song Archive" onclick="window.location.href='songarchive.html'"></i>
+    </div>
     <div class="container">
         <!-- Logo -->
         <div class="logo">T</div>

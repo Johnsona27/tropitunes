@@ -7,297 +7,714 @@
     <!-- Adobe Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <style>
+        :root {
+            --primary-color: #b84228;
+            --primary-light: #dc602e;
+            --primary-dark: #96351f;
+            --secondary-color: #fef4d9;
+            --background-color: #fef8f4;
+            --text-color: #333;
+            --text-light: #555;
+            --card-shadow: 0 8px 20px rgba(184, 66, 40, 0.15);
+            --transition-speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #fefaf6;
-            color: #333;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Header */
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .header {
-            text-align: center;
             padding: 2rem 0;
-            background-color: #fefaf6;
             position: relative;
+            text-align: center;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
         }
 
         .header h1 {
-            font-family: 'Flegrei', sans-serif; /* Replace with the actual font name */
-            font-size: 2.5rem;
-            color: #bc412b;
+            font-family: 'Flegrei', 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            position: relative;
         }
 
-        .header-icons {
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .nav-wrapper {
             position: fixed;
-            left: 1rem; 
-            top: 50%; 
-            transform: translateY(-50%); 
+            left: 0;
+            top: 0;
+            height: 100%;
             display: flex;
-            flex-direction: column; 
-            gap: 1rem; 
-            z-index: 2; 
+            align-items: center;
+            z-index: 1000;
         }
 
-        .header-icons i {
-            font-size: 1.5rem;
-            color: #bc412b;
+        .icon-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border-radius: 0 15px 15px 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .nav-icon {
+            position: relative;
             cursor: pointer;
-            transition: transform 0.3s, color 0.3s;
+            transition: all var(--transition-speed) ease;
         }
 
-        .header-icons i:hover {
-            color: #ff7043;
+        .nav-icon i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-icon::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 120%;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-speed) ease;
+            white-space: nowrap;
+        }
+
+        .nav-icon:hover i {
+            color: var(--primary-light);
             transform: scale(1.2);
         }
 
-        /* Grid Layout */
+        .nav-icon:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+            left: 140%;
+        }
+
         .song-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 3rem 1rem;
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Card Styles */
         .song-card {
-            background-color: #d7b49e;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, var(--secondary-color));
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
             overflow: hidden;
-            text-align: center;
-            padding: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+            transition: all var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+        }
+
+        .song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(220, 96, 46, 0.1), rgba(184, 66, 40, 0.15));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity var(--transition-speed) ease;
         }
 
         .song-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(184, 66, 40, 0.2);
+        }
+
+        .song-card:hover::before {
+            opacity: 1;
+        }
+
+        .song-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .song-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+
+        .song-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%);
+        }
+
+        .card-content {
+            padding: 1.8rem;
         }
 
         .song-card h3 {
-            font-family: 'Crayonize', sans-serif; 
-            font-size: 1.5rem;
-            color: #bc412b;
+            font-family: 'Flegrei', 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
             margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .song-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 2px;
         }
 
         .song-card p {
             font-size: 1rem;
-            color: #555;
-            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
 
-        .song-card i {
-            font-size: 2rem;
-            color: #bc412b;
-            margin-bottom: 1rem;
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
         }
 
-        /* Hover Effect */
-        .song-card:hover i {
-            color: #fdffc3;
+        .read-more i {
+            margin-left: 0.5rem;
+            transition: transform var(--transition-speed) ease;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 600px;
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            overflow-y: auto;
-            max-height: 80vh;
+        .read-more:hover {
+            color: var(--primary-light);
         }
 
-        .modal h4 {
-            font-family: 'Crayonize', sans-serif; 
-            font-size: 1.8rem;
-            color: #bc412b;
-            margin-bottom: 1rem;
+        .read-more:hover i {
+            transform: translateX(5px);
         }
 
-        .modal p {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .modal .close-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #bc412b;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .modal .close-btn:hover {
-            background-color: #ff7043;
-        }
-
-        /* Overlay */
-        .overlay {
+        .modal-backdrop {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 1rem 0;
-            background-color: #fefaf6;
-            font-size: 0.9rem;
-            color: #777;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1200;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal.active, .modal-backdrop.active {
+            opacity: 1;
+        }
+
+        .modal.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-family: 'Flegrei', 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-right: 2rem;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .close-button:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .modal-section p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        .lyrics {
+            font-style: italic;
+            padding: 1.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 2rem;
+            line-height: 2;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.8rem;
+            }
+
+            .nav-wrapper {
+                bottom: 0;
+                top: auto;
+                height: auto;
+                width: 100%;
+            }
+
+            .icon-container {
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+                border-radius: 15px 15px 0 0;
+                padding: 1rem;
+            }
+
+            .nav-icon::after {
+                top: -3rem;
+                left: 50%;
+                transform: translateX(-50%) scale(0.8);
+            }
+
+            .nav-icon:hover::after {
+                transform: translateX(-50%) scale(1);
+                top: -3.5rem;
+            }
+
+            .song-grid {
+                padding-bottom: 5rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 2rem;
+            }
+        }
+
+        .decoration {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .decoration.circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(220, 96, 46, 0.1) 0%, rgba(254, 244, 217, 0) 70%);
+        }
+
+        .decoration.top-right {
+            top: -150px;
+            right: -150px;
+        }
+
+        .decoration.bottom-left {
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 900;
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-indicator:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-5px);
+        }
+
+        .scroll-indicator i {
+            color: white;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-icons">
-            <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
-            <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
-            <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song of the Day"></i>
+    <!-- Decorative elements -->
+    <div class="decoration circle top-right"></div>
+    <div class="decoration circle bottom-left"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header fade-in">
+            <h1>Rhythmic Clapcs</h1>
+            <p>A collection of cherished songs and rhymes from childhood, preserving cultural heritage through melody and verse.</p>
+        </header>
+
+        <!-- Navigation Icons -->
+        <nav class="nav-wrapper">
+            <div class="icon-container">
+                <div class="nav-icon" data-tooltip="Home">
+                    <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i>
+                </div>
+                <div class="nav-icon" data-tooltip="About">
+                    <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'"></i>
+                </div>
+                <div class="nav-icon" data-tooltip="Song Archive">
+                    <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Song Grid -->
+        <div class="song-grid" id="songGrid">
+            <!-- Cards will be added dynamically -->
         </div>
-        <h1>Rhythmic Claps</h1>
     </div>
 
-    <!-- Song Grid -->
-    <div class="song-grid">
-        <!-- Card 1 -->
-        <div class="song-card" onclick="showSongDetails(0)">
-            <i class="fa-solid fa-music"></i>
-            <h3>Chi Chi Bud Oh</h3>
-            <p>Chi chi bud oh, some a dem a holla...</p>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="song-card" onclick="showSongDetails(1)">
-            <i class="fa-solid fa-hand-sparkles"></i>
-            <h3>Dip and Fall Back</h3>
-            <p>Dip and fall back, clap, clap, clap...</p>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="song-card" onclick="showSongDetails(2)">
-            <i class="fa-solid fa-circle"></i>
-            <h3>Brown Girl in the Ring</h3>
-            <p>Brown girl in the ring, tra la la la la...</p>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="song-card" onclick="showSongDetails(3)">
-            <i class="fa-solid fa-crown"></i>
-            <h3>In a Fine Castle</h3>
-            <p>In a fine castle, do as you like to...</p>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="song-card" onclick="showSongDetails(4)">
-            <i class="fa-solid fa-water"></i>
-            <h3>Sally Water</h3>
-            <p>Sally Water, Sally Water, sprinkle on the ground...</p>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="song-card" onclick="showSongDetails(5)">
-            <i class="fa-solid fa-road"></i>
-            <h3>Emanuel Road</h3>
-            <p>Emanuel Road, gal a walk on Emanuel Road...</p>
-        </div>
+    <!-- Scroll to top indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <i class="fa-solid fa-arrow-up"></i>
     </div>
+
+    <!-- Modal Backdrop -->
+    <div id="modalBackdrop" class="modal-backdrop"></div>
 
     <!-- Modal -->
-    <div class="modal" id="songModal"></div>
-    <div class="overlay" onclick="closeModal()"></div>
-
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 Tropitunes. All rights reserved.
+    <div id="songModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <img id="modalImage" class="modal-image" src="" alt="">
+            
+            <div class="modal-section">
+                <div id="modalLyrics" class="lyrics"></div>
+            </div>
+            
+            <div class="modal-section">
+                <h4>Historical Context</h4>
+                <p id="modalContext"></p>
+            </div>
+            
+            <div class="modal-section">
+                <h4>Cultural Significance</h4>
+                <p id="modalSignificance"></p>
+            </div>
+        </div>
     </div>
 
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
     <script>
-        const songs = [
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+
+     const songs = [
             {
-                title: "Chi Chi Bud Oh",
-                lyrics: "Chi chi bud oh, some a dem a holla, some a bawl oh!<br>What a something in the mango tree?",
-                context: "This song originates from traditional Jamaican ring games and folk music. The 'Chi Chi Bud' refers to the Bananaquit, a small yellow bird found in the Caribbean.",
-                significance: "The call-and-response structure makes it easy for children to learn and repeat, which is why it remains popular."
+                title: "Bam Chi Chi Bam",
+                lyrics: `Bam chi, chi, bam, they sing a this song,<br>
+                         Bam chi, chi, bam, sing all the night long.<br>
+                         Bam chi, chi, bam, then just before day,<br>
+                         Bam chi, chi, bam, they fly away.<br><br>
+                         All the chi chi birds they sing 'til dawn,<br>
+                         When the daylight come all the birds are gone.<br>
+                         Chi, chi, chi, chi, chi, what a pretty song—<br>
+                         That is what them birds are singing all day long.`,
+                context: "This song celebrates the chirping of birds at dawn and their departure as the day begins. It reflects the natural rhythm of life and the beauty of nature's soundtrack. Popular in Caribbean communities, it uses onomatopoeia to mimic bird calls.",
+                significance: "The repetitive and melodic structure makes it easy for children to sing along, fostering an appreciation for nature and rhythm. The song serves as an introduction to environmental awareness, teaching children to listen to and appreciate the natural world around them.",
+                instructions: "Children stand in a circle and clap on each 'Bam' and 'Chi'. For 'Bam', clap hands together. For 'Chi', clap hands with a partner. The rhythm speeds up as the song progresses, creating a fun challenge.",
+                image: "images/chichibambam.jpg"
             },
             {
-                title: "Dip and Fall Back",
-                lyrics: "Dip and fall back, clap, clap, clap!<br>Right han’ ketch the left one, clap, clap, clap!",
-                context: "A popular clapping and movement game from Jamaican schoolyards, often played in pairs or small groups.",
-                significance: "The rhythm is catchy, and the movements involve dipping the body backward slightly while clapping."
+                title: "Ring a Ring o' Roses",
+                lyrics: "Ring a ring o' roses, A pocket full o' posies,<br> Ashes, ashes, We all fall down.<br> Ashes in the water, ashes in the sea<br> We all jump up with a one, two, three.",
+                context: "This ancient activity, probably the first singing game any English-speaking child learns, has defied attempts by scholars to settle upon its origin or its meaning. Historians have suggested that the rhyme stems from the time of the Black Death, citing the custom of wearing posies to ward off the disease, the imitation of sneezing in the third line ('a tissue, a tissue') and the final instruction to 'all fall down,' or die.",
+                significance: "Despite its potentially dark origins, the game has evolved into a joyful circle game enjoyed by very young children. It demonstrates how folk traditions can evolve and transform over time, maintaining their structure while gradually shifting in meaning and context.",
+                instructions: "Children stand in a circle holding hands. During the singing of the first three lines of the song, they dance around in a circle. At the word 'down,' all stoop, still holding hands, and the game is repeated until exhaustion sets in.",
+                image: "images/childrenplaying3.png"
             },
             {
                 title: "Brown Girl in the Ring",
                 lyrics: "Brown girl in the ring, tra la la la la...<br>She looks like a sugar in a plum, plum, plum!",
-                context: "Originally a Jamaican ring game, this song has African roots and is sung while children form a circle, clapping as one child dances in the center.",
-                significance: "The lyrics celebrate the beauty and presence of the dancer, reinforcing self-expression and cultural pride."
-            },
-            {
-                title: "In a Fine Castle",
-                lyrics: "In a fine castle, do as you like to...<br>Do as you like to, do as you like to!",
-                context: "This song reflects Caribbean storytelling, where children are taught creativity while respecting tradition.",
-                significance: "The game is often led by a 'queen' or 'king' in the center who gets to decide movements while others clap."
-            },
-            {
-                title: "Sally Water",
-                lyrics: "Sally Water, Sally Water, sprinkle on the ground...<br>Rise up, Sally, and let’s go 'round!",
-                context: "A traditional clapping and circle game, likely dating back to the colonial era when enslaved Africans preserved their musical traditions through ring games.",
-                significance: "The game usually involves one child kneeling in the center while others clap and sing."
-            },
-            {
-                title: "Emanuel Road",
-                lyrics: "Emanuel Road, gal a walk on Emanuel Road...<br>A so so kick up, kick up pon Emanuel Road!",
-                context: "This call-and-response clapping song references a symbolic road, likely connected to Emanuel, a biblical or cultural figure.",
-                significance: "The repeated phrases and movement elements make it a fun and lively playground game."
+                context: "Originally a Jamaican ring game, this song has African roots and is sung while children form a circle, clapping as one child dances in the center. The song gained international popularity when it was adapted by Boney M in their 1978 hit song.",
+                significance: "The lyrics celebrate the beauty and presence of the dancer, reinforcing self-expression and cultural pride. This game provides a way for children to take turns being in the spotlight, building confidence and performance skills in a supportive environment.",
+                instructions: "Children form a circle with one child in the middle. The group sings and claps while the center child dances. After 'plum, plum, plum,' the center child chooses someone else to take their place in the center.",
+                image: "images/browngirlinaring.jpeg"
             }
         ];
 
-        function showSongDetails(index) {
-            const song = songs[index];
-            const modal = document.getElementById("songModal");
-            modal.innerHTML = `
-                <h4>${song.title}</h4>
-                <p><strong>Lyrics:</strong> ${song.lyrics}</p>
-                <p><strong>Context:</strong> ${song.context}</p>
-                <p><strong>Significance:</strong> ${song.significance}</p>
-                <button class="close-btn" onclick="closeModal()">Close</button>
+        const songGrid = document.getElementById('songGrid');
+        const modal = document.getElementById('songModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalLyrics = document.getElementById('modalLyrics');
+        const modalContext = document.getElementById('modalContext');
+        const modalSignificance = document.getElementById('modalSignificance');
+        const modalImage = document.getElementById('modalImage');
+        const closeButton = document.querySelector('.close-button');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        songs.forEach((song, index) => {
+            const card = document.createElement('div');
+            card.className = 'song-card';
+            card.setAttribute('data-aos', 'fade-up');
+            card.setAttribute('data-aos-delay', `${index * 100}`);
+            
+            card.innerHTML = `
+                <div class="song-image-container">
+                    <img src="${song.image}" alt="${song.title}">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3>${song.title}</h3>
+                    <p>${song.lyrics.split('<br>')[0]}...</p>
+                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                </div>
             `;
-            modal.style.display = "block";
-            document.querySelector(".overlay").style.display = "block";
+            
+            card.addEventListener('click', () => openModal(song));
+            songGrid.appendChild(card);
+        });
+
+        function openModal(song) {
+            modalTitle.textContent = song.title;
+            modalLyrics.innerHTML = song.lyrics;
+            modalContext.textContent = song.context;
+            modalSignificance.textContent = song.significance;
+            modalImage.src = song.image;
+            modalImage.alt = song.title;
+            
+            modalBackdrop.style.display = 'block';
+            modal.style.display = 'block';
+  
+            void modalBackdrop.offsetWidth;
+            void modal.offsetWidth;
+            
+            modalBackdrop.classList.add('active');
+            modal.classList.add('active');
+            
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            document.getElementById("songModal").style.display = "none";
-            document.querySelector(".overlay").style.display = "none";
+            modalBackdrop.classList.remove('active');
+            modal.classList.remove('active');
+            
+            setTimeout(() => {
+                modalBackdrop.style.display = 'none';
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 400);
         }
+
+        closeButton.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
+
+      window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollIndicator.classList.add('visible');
+            } else {
+                scrollIndicator.classList.remove('visible');
+            }
+        });
+
+        scrollIndicator.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        let startY;
+        document.addEventListener('touchstart', e => {
+            startY = e.touches[0].clientY;
+        });
+
+        modal.addEventListener('touchmove', e => {
+            if (!modal.classList.contains('active')) return;
+            
+            const currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            
+            if (diff > 50) {
+                closeModal();
+            }
+        });
+
+        document.querySelectorAll('.song-image-container').forEach(container => {
+            const hue = Math.floor(Math.random() * 30) + 10; 
+            container.style.boxShadow = `inset 0 0 60px hsla(${hue}, 80%, 50%, 0.2)`;
+        });
     </script>
 </body>
 </html>

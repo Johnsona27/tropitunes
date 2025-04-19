@@ -3,19 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tropitunes</title>
+    <title>Interesting Origins - Caribbean Childhood Songs</title>
     <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        /* General Styles */
+        :root {
+            --primary-color: #dc602e;
+            --secondary-color: #ffc78f;
+            --text-light: #fefaf6;
+            --text-dark: #2a2a2a;
+            --accent-color: #bc412b;
+            --background-light: #fefaf6;
+            --transition-duration: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Crayonize', sans-serif;
+            scroll-behavior: smooth;
             scroll-snap-type: y mandatory; 
-            overflow-y: scroll; 
-            background: #fefaf6; 
+            overflow-x: hidden;
+            background: var(--background-light);
+            transition: background-color var(--transition-duration);
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 10px;
+            border: 3px solid var(--background-light);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            text-align: center;
+            padding: 1rem 0;
+            background-color: rgba(254, 250, 246, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: padding 0.3s, box-shadow 0.3s;
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            font-family: 'Flegrei', serif;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        header h1::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        header:hover h1::after {
+            width: 80%;
         }
 
         section {
@@ -28,26 +118,126 @@
             padding: 2rem;
             text-align: center;
             position: relative;
+            background-size: cover;
+            background-position: center; 
+            background-repeat: no-repeat;
+            color: var(--text-light);
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+            z-index: 1;
+            transition: background 0.3s;
+        }
+
+        section:hover::before {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        section .content {
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        section:nth-child(even) .content {
+            animation-delay: 0.3s;
         }
 
         h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: #dc602e; 
-            font-family: 'Flegrei', serif; 
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-family: 'Flegrei', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::before, h1::after {
+            content: "";
+            position: absolute;
+            height: 4px;
+            width: 30px;
+            background-color: var(--secondary-color);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        h1::before {
+            left: -40px;
+        }
+
+        h1::after {
+            right: -40px;
         }
 
         p {
             font-size: 1.5rem;
-            line-height: 1.6;
+            line-height: 1.8;
             max-width: 800px;
-            color: #333; 
+            color: var(--text-light);
             font-family: 'Crayonize', sans-serif;
-            text-align: left; 
-            margin-left: 3rem; 
+            text-align: left;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
-        /* Navigation Dots */
+        p::first-letter {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            float: left;
+            margin-right: 8px;
+            line-height: 1;
+        }
+
+        #section1, #section2, #section3, #section4, #section5, #section6 {
+            background-attachment: fixed;
+        }
+
+        #section1 {
+            background-image: url('images/islandkids1.jpeg'); 
+        }
+
+        #section2 {
+            background-image: url('images/islandkids2.jpeg'); 
+        }
+
+        #section3 {
+            background-image: url('images/islandkids3.jpeg'); 
+        }
+
+        #section4 {
+            background-image: url('images/islandkids4.jpeg'); 
+        }
+
+        #section5 {
+            background-image: url('images/islandkids5.jpeg'); 
+        }
+
+        #section6 {
+            background-image: url('images/islandkids6.jpeg'); 
+        }
+
         .nav-dots {
             position: fixed;
             top: 50%;
@@ -56,16 +246,50 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            z-index: 1000;
         }
 
         .nav-dots a {
             width: 15px;
             height: 15px;
-            background: #ffc78f;
-            border: 1.5px solid #fff;
+            background: rgba(255, 199, 143, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.7);
             border-radius: 50%;
             position: relative;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-dots a:hover {
+            transform: scale(1.2);
+        }
+
+        .nav-dots a::before {
+            content: attr(data-title);
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dots a:hover::before {
+            opacity: 1;
+            visibility: visible;
+            right: 25px;
+        }
+
+        .nav-dots a.active {
+            background: var(--secondary-color);
+            transform: scale(1.2);
         }
 
         .nav-dots a.active::after {
@@ -74,125 +298,348 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 14px;
-            height: 14px;
-            background: #dc602e; 
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
             border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
-        /* Icons Section */
-        .icon-container {
+        .sidebar {
             position: fixed;
-            left: 1rem; 
-            top: 50%; 
+            left: 1.5rem;
+            top: 50%;
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            z-index: 2;
+            gap: 1.5rem;
+            z-index: 10;
+            background: rgba(254, 250, 246, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 15px 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .icon-container i {
-            font-size: 1.5rem; 
+        .sidebar i {
+            font-size: 1.5rem;
+            color: var(--accent-color);
             cursor: pointer;
-            color: #bc412b;
-            transition: color 0.3s, transform 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
         }
 
-        .icon-container i:hover {
-            color: #dc602e; 
-            transform: scale(1.2); 
+        .sidebar i:hover {
+            color: var(--primary-color);
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar i::after {
+            content: attr(title);
+            position: absolute;
+            left: 50px;
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: 'Crayonize', sans-serif;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar i:hover::after {
+            opacity: 1;
+            visibility: visible;
+            left: 55px;
+        }
+
+        .decorative-element {
+            position: absolute;
+            z-index: 3;
+            opacity: 0.7;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .music-note {
+            font-size: 2rem;
+            color: var(--secondary-color);
+        }
+
+        .music-note:nth-child(odd) {
+            animation-delay: 2s;
+        }
+
+        .music-note:nth-child(3n) {
+            animation-delay: 4s;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+                padding: 0 1rem;
+            }
+
+            .sidebar {
+                left: 0.5rem;
+            }
+
+            .nav-dots {
+                right: 0.5rem;
+            }
+
+            .sidebar i::after,
+            .nav-dots a::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h1::before, h1::after {
+                width: 20px;
+            }
+
+            h1::before {
+                left: -25px;
+            }
+
+            h1::after {
+                right: -25px;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .sidebar i {
+                font-size: 1.2rem;
+                width: 30px;
+                height: 30px;
+            }
+
+            .nav-dots a {
+                width: 10px;
+                height: 10px;
+            }
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--secondary-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Icons -->
-    <div class="icon-container">
-        <i class="fas fa-home" onclick="window.location.href='index.html'" title="Home" aria-label="Home"></i>
-        <i class="fas fa-info-circle" onclick="window.location.href='about.html'" title="About" aria-label="About"></i>
-        <i class="fas fa-music" onclick="window.location.href='songarchive.html'" title="Song of the Day" aria-label="Song of the Day"></i>
+    <!-- Loading Screen -->
+    <div class="loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h2 style="color: var(--primary-color); font-family: 'Flegrei', serif;">Loading Caribbean Memories...</h2>
+        </div>
     </div>
 
+    <!-- Page Header -->
+    <header>
+        <h1>Interesting Origins</h1>
+    </header>
+
+    <!-- Navigation Icons -->
+    <div class="sidebar">
+        <i class="fa-solid fa-house" title="Home" onclick="window.location.href='index.html'"></i>
+        <i class="fa-solid fa-circle-info" title="About" onclick="window.location.href='about.html'"></i>
+        <i class="fa-solid fa-music" title="Song Archive" onclick="window.location.href='songarchive.html'"></i>
+    </div>
+
+    <!-- Decorative Music Notes -->
+    <div class="decorative-element music-note" style="top: 20%; left: 10%;">♪</div>
+    <div class="decorative-element music-note" style="top: 30%; right: 15%;">♫</div>
+    <div class="decorative-element music-note" style="bottom: 25%; left: 20%;">♩</div>
+    <div class="decorative-element music-note" style="bottom: 40%; right: 10%;">♬</div>
+
     <!-- Sections -->
-    <section id="section1">
+    <section id="section1" data-index="1">
         <div class="content">
             <h1>Oral Tradition is the Heartbeat of Childhood Games</h1>
-            <p>In the Caribbean, playground songs and games were rarely written down. Instead, they were passed from child to child, generation to generation, through voice, rhythm, and memory. This oral tradition created a living archive — one where songs would shift slightly depending on the community, the island, or even the group of friends singing them. It’s a powerful reminder that history doesn’t just live in books — it lives in play, in repetition, and in laughter.</p>
+            <p>In the Caribbean, playground songs and games were rarely written down. Instead, they were passed from child to child, generation to generation, through voice, rhythm, and memory. This oral tradition created a living archive — one where songs would shift slightly depending on the community, the island, or even the group of friends singing them. It's a powerful reminder that history doesn't just live in books — it lives in play, in repetition, and in laughter.</p>
         </div>
     </section>
 
-    <section id="section2">
+    <section id="section2" data-index="2">
         <div class="content">
             <h1>Clapping Games Improve Brain Function and Social Skills</h1>
-            <p>Clapping games aren’t just fun — they activate both hemispheres of the brain at once, supporting memory, motor coordination, and pattern recognition. When children sing and clap together, they also learn rhythm, timing, and teamwork. Studies have shown that these kinds of activities even help with literacy and language development — especially in early childhood education.</p>
+            <p>Clapping games aren't just fun — they activate both hemispheres of the brain at once, supporting memory, motor coordination, and pattern recognition. When children sing and clap together, they also learn rhythm, timing, and teamwork. Studies have shown that these kinds of activities even help with literacy and language development — especially in early childhood education.</p>
         </div>
     </section>
 
-    <section id="section3">
+    <section id="section3" data-index="3">
         <div class="content">
             <h1>Songs Were a Way to Build Identity and Belonging</h1>
             <p>Through shared songs, children in the Caribbean learned where they came from, who they were, and how they fit into a larger community. Singing together created bonds, taught local dialects and values, and built emotional connections. In a region shaped by colonization, migration, and resilience, these games gave children a cultural anchor — something playful, but deeply meaningful.</p>
         </div>
     </section>
 
-    <section id="section4">
+    <section id="section4" data-index="4">
         <div class="content">
             <h1>Playground Games Have Global Roots, Caribbean Flavor</h1>
-            <p>Many of the rhythmic structures and game formats in the Caribbean come from African, European, and Indigenous traditions. Over time, they blended into something new and uniquely Caribbean. This cultural fusion is reflected in the music, lyrics, and movements of the games. For example, a clapping pattern might trace back to West African drumming, while a rhyme’s melody could carry hints of European folk music.</p>
+            <p>Many of the rhythmic structures and game formats in the Caribbean come from African, European, and Indigenous traditions. Over time, they blended into something new and uniquely Caribbean. This cultural fusion is reflected in the music, lyrics, and movements of the games. For example, a clapping pattern might trace back to West African drumming, while a rhyme's melody could carry hints of European folk music.</p>
         </div>
     </section>
 
-    <section id="section5">
+    <section id="section5" data-index="5">
         <div class="content">
             <h1>Improvisation is a Big Part of the Fun</h1>
-            <p>Unlike many traditional children’s songs from other parts of the world, Caribbean playground games often leave space for improvisation. Children might insert their own names, make up new verses, or remix lyrics on the fly. This allows for self-expression, storytelling, and a dynamic kind of creativity that keeps the games fresh and personal. It also teaches adaptability — a value deeply embedded in Caribbean cultures.</p>
+            <p>Unlike many traditional children's songs from other parts of the world, Caribbean playground games often leave space for improvisation. Children might insert their own names, make up new verses, or remix lyrics on the fly. This allows for self-expression, storytelling, and a dynamic kind of creativity that keeps the games fresh and personal. It also teaches adaptability — a value deeply embedded in Caribbean cultures.</p>
         </div>
     </section>
 
-    <section id="section6">
+    <section id="section6" data-index="6">
         <div class="content">
             <h1>These Games Carry Emotional and Cultural Memory</h1>
-            <p>Even though they seem simple, many of these games are tied to deep emotional memories. They bring back feelings of safety, freedom, and joy. For children of Caribbean descent growing up in the diaspora, these songs are often one of the first cultural touchstones they remember. That’s why preserving them is so important — they’re not just games, they’re echoes of home.</p>
+            <p>Even though they seem simple, many of these games are tied to deep emotional memories. They bring back feelings of safety, freedom, and joy. For children of Caribbean descent growing up in the diaspora, these songs are often one of the first cultural touchstones they remember. That's why preserving them is so important.</p>
         </div>
     </section>
 
     <!-- Navigation Dots -->
     <div class="nav-dots">
-        <a href="#section1" class="active"></a>
-        <a href="#section2"></a>
-        <a href="#section3"></a>
-        <a href="#section4"></a>
-        <a href="#section5"></a>
-        <a href="#section6"></a>
+        <a href="#section1" class="active" data-title="Oral Tradition"></a>
+        <a href="#section2" data-title="Brain Function"></a>
+        <a href="#section3" data-title="Identity"></a>
+        <a href="#section4" data-title="Global Roots"></a>
+        <a href="#section5" data-title="Improvisation"></a>
+        <a href="#section6" data-title="Cultural Memory"></a>
     </div>
 
     <script>
-        // JavaScript to highlight the active navigation dot using IntersectionObserver
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 1000);
+
+            document.querySelector('#section1').scrollIntoView();
+        });
+
         const sections = document.querySelectorAll('section');
         const navDots = document.querySelectorAll('.nav-dots a');
 
         const observerOptions = {
-            root: null, // Use the viewport as the root
-            threshold: 0.5, // Trigger when 50% of the section is visible
+            root: null,
+            threshold: 0.5,
+            rootMargin: "0px"
         };
 
         const observerCallback = (entries) => {
             entries.forEach(entry => {
-                const sectionId = entry.target.getAttribute('id');
-                const navDot = document.querySelector(`.nav-dots a[href="#${sectionId}"]`);
-
                 if (entry.isIntersecting) {
-                    // Add 'active' class to the corresponding navigation dot
+                    const sectionId = entry.target.getAttribute('id');
+                    const navDot = document.querySelector(`.nav-dots a[href="#${sectionId}"]`);
+                    
                     navDots.forEach(dot => dot.classList.remove('active'));
                     navDot.classList.add('active');
+                    
+                    history.replaceState(null, null, `#${sectionId}`);
+                    
+                    entry.target.querySelector('.content').style.animation = 'fadeIn 1s forwards';
                 }
             });
         };
 
         const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        // Observe each section
         sections.forEach(section => observer.observe(section));
+
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        navDots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = dot.getAttribute('href');
+                document.querySelector(targetId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const distance = sectionTop - scrollPosition;
+                section.style.backgroundPositionY = `${distance * 0.5}px`;
+            });
+        });
+
+        const musicNotes = document.querySelectorAll('.music-note');
+        musicNotes.forEach(note => {
+            setInterval(() => {
+                const randomX = Math.random() * 20 - 10; 
+                const randomY = Math.random() * 20 - 10;
+                note.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            }, 3000);
+        });
     </script>
 </body>
 </html>

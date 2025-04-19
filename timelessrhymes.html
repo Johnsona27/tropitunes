@@ -7,299 +7,704 @@
     <!-- Adobe Fonts -->
     <link rel="stylesheet" href="https://use.typekit.net/nme1niv.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
     <style>
+        :root {
+            --primary-color: #b84228;
+            --primary-light: #dc602e;
+            --primary-dark: #96351f;
+            --secondary-color: #fef4d9;
+            --background-color: #fef8f4;
+            --text-color: #333;
+            --text-light: #555;
+            --card-shadow: 0 8px 20px rgba(184, 66, 40, 0.15);
+            --transition-speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background-color: #fefaf6;
-            color: #333;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Header */
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .header {
-            text-align: center;
             padding: 2rem 0;
-            background-color: #fefaf6;
             position: relative;
+            text-align: center;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
         }
 
         .header h1 {
-            font-family: 'Flegrei', sans-serif; /* Replace with the actual font name */
-            font-size: 2.5rem;
-            color: #bc412b;
+            font-family: 'Flegrei', 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            position: relative;
         }
 
-        .header-icons {
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .nav-wrapper {
             position: fixed;
-            left: 1rem; 
-            top: 50%; 
-            transform: translateY(-50%); 
+            left: 0;
+            top: 0;
+            height: 100%;
             display: flex;
-            flex-direction: column; 
-            gap: 1rem; 
-            z-index: 2; 
+            align-items: center;
+            z-index: 1000;
         }
 
-        .header-icons i {
-            font-size: 1.5rem;
-            color: #bc412b;
+        .icon-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border-radius: 0 15px 15px 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .nav-icon {
+            position: relative;
             cursor: pointer;
-            transition: transform 0.3s, color 0.3s;
+            transition: all var(--transition-speed) ease;
         }
 
-        .header-icons i:hover {
-            color: #ff7043;
+        .nav-icon i {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav-icon::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 120%;
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-speed) ease;
+            white-space: nowrap;
+        }
+
+        .nav-icon:hover i {
+            color: var(--primary-light);
             transform: scale(1.2);
         }
 
-        /* Grid Layout */
+        .nav-icon:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+            left: 140%;
+        }
+
         .song-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            padding: 3rem 1rem;
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Card Styles */
         .song-card {
-            background-color: #d7b49e;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff, var(--secondary-color));
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
             overflow: hidden;
-            text-align: center;
-            padding: 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+            transition: all var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+        }
+
+        .song-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, rgba(220, 96, 46, 0.1), rgba(184, 66, 40, 0.15));
+            opacity: 0;
+            z-index: -1;
+            transition: opacity var(--transition-speed) ease;
         }
 
         .song-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(184, 66, 40, 0.2);
+        }
+
+        .song-card:hover::before {
+            opacity: 1;
+        }
+
+        .song-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .song-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+
+        .song-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 50%);
+        }
+
+        .card-content {
+            padding: 1.8rem;
         }
 
         .song-card h3 {
-            font-family: 'Crayonize', sans-serif; 
-            font-size: 1.5rem;
-            color: #bc412b;
+            font-family: 'Flegrei', 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
             margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .song-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-light);
+            border-radius: 2px;
         }
 
         .song-card p {
             font-size: 1rem;
-            color: #555;
-            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
 
-        .song-card i {
-            font-size: 2rem;
-            color: #bc412b;
-            margin-bottom: 1rem;
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
         }
 
-        /* Hover Effect */
-        .song-card:hover i {
-            color: #fdffc3;
+        .read-more i {
+            margin-left: 0.5rem;
+            transition: transform var(--transition-speed) ease;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 600px;
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            overflow-y: auto;
-            max-height: 80vh;
+        .read-more:hover {
+            color: var(--primary-light);
         }
 
-        .modal h4 {
-            font-family: 'Crayonize', sans-serif; 
-            font-size: 1.8rem;
-            color: #bc412b;
-            margin-bottom: 1rem;
+        .read-more:hover i {
+            transform: translateX(5px);
         }
 
-        .modal p {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1rem;
-        }
-
-        .modal .close-btn {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #bc412b;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .modal .close-btn:hover {
-            background-color: #ff7043;
-        }
-
-        /* Overlay */
-        .overlay {
+        .modal-backdrop {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 1rem 0;
-            background-color: #fefaf6;
-            font-size: 0.9rem;
-            color: #777;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1200;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal.active, .modal-backdrop.active {
+            opacity: 1;
+        }
+
+        .modal.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-family: 'Flegrei', 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-right: 2rem;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .close-button:hover {
+            color: var(--primary-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+
+        .modal-section h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .modal-section p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        .lyrics {
+            font-style: italic;
+            padding: 1.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+            margin-bottom: 2rem;
+            line-height: 2;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.8rem;
+            }
+
+            .nav-wrapper {
+                bottom: 0;
+                top: auto;
+                height: auto;
+                width: 100%;
+            }
+
+            .icon-container {
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+                border-radius: 15px 15px 0 0;
+                padding: 1rem;
+            }
+
+            .nav-icon::after {
+                top: -3rem;
+                left: 50%;
+                transform: translateX(-50%) scale(0.8);
+            }
+
+            .nav-icon:hover::after {
+                transform: translateX(-50%) scale(1);
+                top: -3.5rem;
+            }
+
+            .song-grid {
+                padding-bottom: 5rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 2rem;
+            }
+        }
+
+        .decoration {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .decoration.circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(220, 96, 46, 0.1) 0%, rgba(254, 244, 217, 0) 70%);
+        }
+
+        .decoration.top-right {
+            top: -150px;
+            right: -150px;
+        }
+
+        .decoration.bottom-left {
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            z-index: 900;
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-indicator:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-5px);
+        }
+
+        .scroll-indicator i {
+            color: white;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="header-icons">
-            <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
-            <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
-            <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song of the Day"></i>
+    <!-- Decorative elements -->
+    <div class="decoration circle top-right"></div>
+    <div class="decoration circle bottom-left"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header fade-in">
+            <h1>Timeless Rhymes</h1>
+            <p>A collection of cherished songs and rhymes from childhood, preserving cultural heritage through melody and verse.</p>
+        </header>
+
+        <!-- Navigation Icons -->
+        <nav class="nav-wrapper">
+            <div class="icon-container">
+                <div class="nav-icon" data-tooltip="Home">
+                    <i class="fa-solid fa-house" onclick="window.location.href='index.html'"></i>
+                </div>
+                <div class="nav-icon" data-tooltip="About">
+                    <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'"></i>
+                </div>
+                <div class="nav-icon" data-tooltip="Song Archive">
+                    <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'"></i>
+                </div>
+            </div>
+        </nav>
+
+        <div class="song-grid" id="songGrid">
         </div>
-    
-       <h1>Timeless Rhymes</h1>
     </div>
 
-    <!-- Song Grid -->
-    <div class="song-grid">
-        <!-- Card 1 -->
-        <div class="song-card" onclick="showSongDetails(0)">
-            <i class="fa-solid fa-music"></i>
-            <h3>Miss Mary Mack</h3>
-            <p>All dressed in black, black, black...</p>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="song-card" onclick="showSongDetails(1)">
-            <i class="fa-solid fa-leaf"></i>
-            <h3>Linstead Market</h3>
-            <p>Big John, Big John, sell a yam...</p>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="song-card" onclick="showSongDetails(2)">
-            <i class="fa-solid fa-dance"></i>
-            <h3>Nana, Nana</h3>
-            <p>Come and dance for me...</p>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="song-card" onclick="showSongDetails(3)">
-            <i class="fa-solid fa-bell"></i>
-            <h3>Ding-Dong</h3>
-            <p>Who’s there? I’m coming...</p>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="song-card" onclick="showSongDetails(4)">
-            <i class="fa-solid fa-hand-sparkles"></i>
-            <h3>Roly-Poly</h3>
-            <p>Up, up, up, down, down, down...</p>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="song-card" onclick="showSongDetails(5)">
-            <i class="fa-solid fa-circle"></i>
-            <h3>Skip to My Lou</h3>
-            <p>Skip to my Lou, my darling...</p>
-        </div>
+    <!-- Scroll to top indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <i class="fa-solid fa-arrow-up"></i>
     </div>
+
+    <!-- Modal Backdrop -->
+    <div id="modalBackdrop" class="modal-backdrop"></div>
 
     <!-- Modal -->
-    <div class="modal" id="songModal"></div>
-    <div class="overlay" onclick="closeModal()"></div>
-
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 Tropitunes. All rights reserved.
+    <div id="songModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <button class="close-button">&times;</button>
+            </div>
+            <img id="modalImage" class="modal-image" src="" alt="">
+            
+            <div class="modal-section">
+                <div id="modalLyrics" class="lyrics"></div>
+            </div>
+            
+            <div class="modal-section">
+                <h4>Historical Context</h4>
+                <p id="modalContext"></p>
+            </div>
+            
+            <div class="modal-section">
+                <h4>Cultural Significance</h4>
+                <p id="modalSignificance"></p>
+            </div>
+        </div>
     </div>
 
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+
         const songs = [
             {
                 title: "Miss Mary Mack",
-                lyrics: "Miss Mary Mack, Mack, Mack<br>All dressed in black, black, black<br>With silver buttons, buttons, buttons<br>All down her back, back, back.",
-                context: "Miss Mary Mack is one of the most recognizable children's clapping games and rhymes across many Caribbean islands, including Jamaica.",
-                significance: "The rhyme reflects the playful nature of Jamaican childhood and the communal activity of clapping games."
+                lyrics: "Miss Mary Mack, Mack, Mack<br>All dressed in black, black, black<br>With silver buttons, buttons, buttons<br>All down her back, back, back.<br><br>She asked her mother, mother, mother<br>For fifty cents, cents, cents<br>To see the elephants, elephants, elephants<br>Jump over the fence, fence, fence.",
+                context: "Miss Mary Mack is one of the most well-known clapping games and playground rhymes in English-speaking countries. Dating back to at least the early 20th century, this rhyme was traditionally performed with a partner while executing complex hand-clapping patterns that helped children develop rhythm and coordination.",
+                significance: "Beyond simple entertainment, this rhyme served as an important social bonding ritual among children. The interactive nature of the clapping game fostered cooperation and trust between playmates. The rhyme's enduring popularity across generations shows how these traditional games help preserve cultural continuity while providing a playful introduction to rhythm, wordplay, and memorization skills.",
+                image: "images/missmarymack.png",
+                tags: ["clapping game", "English", "traditional"]
             },
             {
                 title: "Linstead Market",
-                lyrics: "Linstead market, Linstead market,<br>Big John, Big John,<br>Sell a yam, sell a yam,<br>Come, come, come.",
-                context: "Linstead Market is a popular Jamaican song that references a real-life market in Linstead, St. Catherine, Jamaica.",
-                significance: "The rhyme evokes the sense of community and tradition in Jamaican culture, especially the importance of markets as social and economic hubs."
+                lyrics: "Carry me ackee go a Linstead Market,<br>Not a quattie wut sell.<br>Carry me ackee go a Linstead Market,<br>Not a quattie wut sell.<br><br>Oh lawd, not a quattie wut sell,<br>Oh lawd, not a quattie wut sell.<br>Carry me ackee go a Linstead Market,<br>Not a quattie wut sell.",
+                context: "Linstead Market is a traditional Jamaican folk song that originated in the late 19th century. It tells the story of a market vendor who travels to Linstead (a town in St. Catherine, Jamaica) to sell ackee fruit but returns disappointed when unable to make any sales. The 'quattie' mentioned was a small denomination of currency.",
+                significance: "This song captures the economic struggles of ordinary Jamaicans during colonial times and has become an important cultural touchstone. It reflects the resilience of the Jamaican people in the face of hardship. The song gained international recognition when it was included in the 1951 collection 'Jamaican Song and Story' by Walter Jekyll and has since become one of Jamaica's most recognized folk songs, often taught to schoolchildren as part of cultural education.",
+                image: "images/linsteadmarket.png",
+                tags: ["Jamaican", "folk song", "cultural"]
             },
             {
-                title: "Nana, Nana",
-                lyrics: "Nana, nana, come and dance for me,<br>Let me see you shake your body,<br>Nana, nana, come and dance for me,<br>Let me see you shake your body,<br>Shake it to the left, shake it to the right,<br>Nana, nana, oh what a sight!",
-                context: "Nana, Nana is a song that has been passed down through generations, and it’s commonly sung during playtime. The song’s lyrics encourage movement and dancing, which are a significant part of Jamaican culture.",
-                significance: "The rhyme reflects the importance of music and dance in Jamaican culture, emphasizing fun, physical activity, and the joy of movement."
-            },
-            {
-                title: "Ding-Dong",
-                lyrics: "Ding-dong, ding-dong,<br>Who’s there?<br>I’m coming, I’m coming,<br>I’m coming, I’m coming.",
-                context: "Ding-Dong is another traditional Jamaican nursery rhyme often accompanied by simple actions or motions. It represents the social, playful aspects of Jamaican childhood.",
-                significance: "The rhyme promotes cooperative play and reflects the communal culture of Jamaica, where children often play in groups and share experiences."
-            },
-            {
-                title: "Roly-Poly",
-                lyrics: "Roly-poly, roly-poly,<br>Up, up, up,<br>Down, down, down,<br>Turn around, turn around.<br>Clap, clap, clap,<br>Wave your hands.",
-                context: "Roly-Poly is a popular clapping game, often played in pairs or small groups. The rhyme features actions that correspond to the lyrics, such as clapping, turning around, or waving hands.",
-                significance: "The rhyme underscores the importance of play in childhood development and the role of music in enhancing motor skills and social interaction."
-            },
-            {
-                title: "Skip to My Lou",
-                lyrics: "Skip to my Lou, my darling,<br>Skip to my Lou, my darling,<br>Skip to my Lou, my darling,<br>Skip to my Lou, my darling.",
-                context: "While 'Skip to My Lou' originated in the U.S., it was quickly adopted and adapted in various Caribbean cultures, including Jamaica. The song, often performed during group games, involves children skipping or hopping around in a circle.",
-                significance: "This rhyme is an example of how cultural exchange and adaptation help shape local childhood traditions. The rhythm, movement, and repetition are all key elements of Caribbean songs."
+                title: "Ting a Ling a Ling",
+                lyrics: "Ting a ling a ling<br>School bell ring<br>Knife and fork ah fight fi dumpling",
+                context: "This playful rhyme is part of Jamaican oral tradition and is often recited by children during school or playtime. It uses the onomatopoeic 'ting a ling a ling' to mimic the sound of a school bell, and describes the humorous image of utensils fighting over food, reflecting the creativity and whimsy of Caribbean storytelling traditions.",
+                significance: "Rhymes like this one reflect Jamaican children's experiences with wit and rhythm. They act as tools for linguistic play, storytelling, and community bonding. These short verses help preserve dialectal expressions and cultural references while entertaining children through generations. The vivid personification of kitchen utensils fighting over dumplings demonstrates the imaginative storytelling that characterizes Caribbean oral traditions.",
+                image: "images/childrenplaying2.jpeg",
+                tags: ["Jamaican", "rhyme", "school"]
             }
         ];
 
-        function showSongDetails(index) {
-            const song = songs[index];
-            const modal = document.getElementById("songModal");
-            modal.innerHTML = `
-                <h4>${song.title}</h4>
-                <p><strong>Lyrics:</strong> ${song.lyrics}</p>
-                <p><strong>Context:</strong> ${song.context}</p>
-                <p><strong>Significance:</strong> ${song.significance}</p>
-                <button class="close-btn" onclick="closeModal()">Close</button>
+        const songGrid = document.getElementById('songGrid');
+        const modal = document.getElementById('songModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalLyrics = document.getElementById('modalLyrics');
+        const modalContext = document.getElementById('modalContext');
+        const modalSignificance = document.getElementById('modalSignificance');
+        const modalImage = document.getElementById('modalImage');
+        const closeButton = document.querySelector('.close-button');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        songs.forEach((song, index) => {
+            const card = document.createElement('div');
+            card.className = 'song-card';
+            card.setAttribute('data-aos', 'fade-up');
+            card.setAttribute('data-aos-delay', `${index * 100}`);
+            
+            card.innerHTML = `
+                <div class="song-image-container">
+                    <img src="${song.image}" alt="${song.title}">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <h3>${song.title}</h3>
+                    <p>${song.lyrics.split('<br>')[0]}...</p>
+                    <a href="#" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                </div>
             `;
-            modal.style.display = "block";
-            document.querySelector(".overlay").style.display = "block";
+            
+            card.addEventListener('click', () => openModal(song));
+            songGrid.appendChild(card);
+        });
+
+        function openModal(song) {
+            modalTitle.textContent = song.title;
+            modalLyrics.innerHTML = song.lyrics;
+            modalContext.textContent = song.context;
+            modalSignificance.textContent = song.significance;
+            modalImage.src = song.image;
+            modalImage.alt = song.title;
+            
+            modalBackdrop.style.display = 'block';
+            modal.style.display = 'block';
+            
+            void modalBackdrop.offsetWidth;
+            void modal.offsetWidth;
+            
+            modalBackdrop.classList.add('active');
+            modal.classList.add('active');
+            
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            document.getElementById("songModal").style.display = "none";
-            document.querySelector(".overlay").style.display = "none";
+            modalBackdrop.classList.remove('active');
+            modal.classList.remove('active');
+            
+            setTimeout(() => {
+                modalBackdrop.style.display = 'none';
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 400);
         }
+
+        closeButton.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollIndicator.classList.add('visible');
+            } else {
+                scrollIndicator.classList.remove('visible');
+            }
+        });
+
+        scrollIndicator.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        let startY;
+        document.addEventListener('touchstart', e => {
+            startY = e.touches[0].clientY;
+        });
+
+        modal.addEventListener('touchmove', e => {
+            if (!modal.classList.contains('active')) return;
+            
+            const currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            
+            if (diff > 50) {
+                closeModal();
+            }
+        });
+
+        document.querySelectorAll('.song-image-container').forEach(container => {
+            const hue = Math.floor(Math.random() * 30) + 10; 
+            container.style.boxShadow = `inset 0 0 60px hsla(${hue}, 80%, 50%, 0.2)`;
+        });
     </script>
 </body>
 </html>
-

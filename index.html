@@ -30,14 +30,14 @@
         }
 
         .title {
-            font-size: 8rem; /* Fixed font size */
+            font-size: 8rem; 
             font-weight: bold;
             color: #333;
-            position: relative; /* Make the title the positioning context */
+            position: relative; 
             z-index: 1;
             font-family: 'Flegrei', serif;
-            margin-top: 3vh; /* Adjust spacing based on viewport height */
-            display: inline-block; /* Ensure the title behaves like a block for positioning */
+            margin-top: 3vh; 
+            display: inline-block; 
         }
 
         .title span {
@@ -55,7 +55,7 @@
 
         .icon-container {
             position: fixed;
-            left: 1vw; /* Adjust position based on viewport width */
+            left: 1vw; 
             top: 50%;
             transform: translateY(-50%);
             display: flex;
@@ -65,12 +65,12 @@
         }
 
         .icon-container i {
-            font-size: 1.5rem; /* Use rem for consistent scaling */
+            font-size: 1.5rem;
             cursor: pointer;
             color: #bc412b;
             transition: color 0.3s, transform 0.3s;
             touch-action: manipulation;
-            padding: 0.5rem; /* Add padding for easier tapping */
+            padding: 0.5rem; 
         }
 
         .icon-container i:hover {
@@ -78,16 +78,15 @@
             transform: scale(1.2);
         }
 
-        /* Doodle Styles */
         .doodle {
             position: absolute;
-            z-index: 0; /* Ensure doodles stay below the footer */
+            z-index: 0; 
             transition: transform 0.3s, opacity 0.3s;
             cursor: pointer;
             visibility: hidden;
-            width: clamp(5vw, 10vw, 15vw); /* Adjust doodle size based on screen width */
+            width: clamp(5vw, 10vw, 15vw); 
             touch-action: manipulation;
-            padding: 0.5rem; /* Add padding for easier tapping */
+            padding: 0.5rem; 
         }
 
         .doodle.show {
@@ -100,9 +99,9 @@
         }
 
         .doodle2 {
-            position: absolute; /* Position relative to the title */
-            top: 40%; /* Center vertically within the title */
-            left: 110%; /* Place it slightly to the right of the title */
+            position: absolute; 
+            top: 40%; 
+            left: 110%;
             transform: translate(-50%, -50%);
             width: 8vw; 
             z-index: -1;
@@ -129,43 +128,42 @@
             }
 
             .icon-container {
-                left: 0.5vw; /* Move icons closer to the edge */
-                gap: 0.5rem; /* Reduce spacing between icons */
+                left: 0.5vw; 
+                gap: 0.5rem;
             }
 
             .icon-container i {
-                font-size: 1.2rem; /* Reduce icon size */
+                font-size: 1.2rem; 
             }
 
             .doodle {
-                width: clamp(4vw, 8vw, 12vw); /* Scale doodles for smaller screens */
+                width: clamp(4vw, 8vw, 12vw); 
             }
 
             .doodle2 {
-                width: 8vw; /* Adjust doodle2 size */
+                width: 8vw; 
             }
 
             .footer {
-                font-size: 1rem; /* Reduce footer text size */
+                font-size: 1rem; 
             }
         }
 
-        /* For very small screens (e.g., phones) */
         @media (max-width: 480px) {
             .title {
-                font-size: 4rem; /* Keep the same size for phones */
+                font-size: 4rem; 
             }
 
             .icon-container {
-                left: 0.3vw; /* Move icons even closer to the edge */
+                left: 0.3vw; 
             }
 
             .doodle {
-                width: clamp(3vw, 6vw, 10vw); /* Further scale down doodles */
+                width: clamp(3vw, 6vw, 10vw); 
             }
 
             .footer {
-                font-size: 0.8rem; /* Further reduce footer text size */
+                font-size: 0.8rem; 
             }
         }
     </style>
@@ -178,7 +176,7 @@
         <div class="icon-container">
             <i class="fa-solid fa-house" onclick="window.location.href='index.html'" title="Home"></i>
             <i class="fa-solid fa-circle-info" onclick="window.location.href='about.html'" title="About"></i>
-            <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song Archive"></i> <!-- Link to Song Archive -->
+            <i class="fa-solid fa-music" onclick="window.location.href='songarchive.html'" title="Song Archive"></i> 
         </div>
         
         <!-- Clickable Title -->
@@ -216,12 +214,11 @@
     </div>
 
     <script>
-        // Randomize positions for doodles (excluding doodle2)
         const doodles = document.querySelectorAll('.doodle:not(.doodle2)');
-        const minDistance = 100; // Minimum distance in pixels between doodles
+        const minDistance = 100;
 
         function getRandomPosition(max) {
-            return Math.random() * max + 5; // Adjust to avoid edges
+            return Math.random() * max + 5; 
         }
 
         function areDoodlesTooClose(doodle1, doodle2) {
@@ -236,7 +233,6 @@
         }
 
         function positionDoodles() {
-            // Temporarily disable transitions
             doodles.forEach(doodle => {
                 doodle.style.transition = 'none';
             });
@@ -247,18 +243,17 @@
 
                 do {
                     if (window.innerWidth < 768) {
-                        randomTop = getRandomPosition(50); // Limit top position to 50% for mobile
-                        randomLeft = getRandomPosition(70); // Limit left position to 70% for mobile
+                        randomTop = getRandomPosition(50); 
+                        randomLeft = getRandomPosition(70);
                     } else {
-                        randomTop = getRandomPosition(70); // Limit top position to 70% to avoid the footer
-                        randomLeft = getRandomPosition(80); // Random left position (10% to 90%)
+                        randomTop = getRandomPosition(70); 
+                        randomLeft = getRandomPosition(80); 
                     }
                     doodle.style.top = `${randomTop}%`;
                     doodle.style.left = `${randomLeft}%`;
 
                     isTooClose = false;
 
-                    // Check if this doodle is too close to any other doodle
                     for (let i = 0; i < index; i++) {
                         if (areDoodlesTooClose(doodle, doodles[i])) {
                             isTooClose = true;
@@ -267,33 +262,32 @@
                     }
                 } while (isTooClose);
 
-                // Randomize size
-                const randomSize = Math.random() > 0.5 ? '450px' : '490px'; // 50% chance for small or default size
+                const randomSize = Math.random() > 0.5 ? '450px' : '490px';
                 doodle.style.width = randomSize;
 
                 console.log(`Doodle positioned: ${doodle.alt}, Top: ${randomTop}%, Left: ${randomLeft}%, Size: ${randomSize}`);
             });
 
-            // Re-enable transitions and show doodles after positioning
+            
             setTimeout(() => {
                 doodles.forEach(doodle => {
                     doodle.style.transition = 'transform 0.3s, opacity 0.3s';
-                    doodle.classList.add('show'); // Make doodles visible
+                    doodle.classList.add('show');
                 });
             }, 0);
         }
 
-        // Add interactivity to doodles
+        
         doodles.forEach(doodle => {
             doodle.addEventListener('click', () => {
-                doodle.style.transform = 'scale(1.2) rotate(360deg)'; // Reduced scale to 1.2
+                doodle.style.transform = 'scale(1.2) rotate(360deg)'; 
                 setTimeout(() => {
                     doodle.style.transform = 'scale(1) rotate(0deg)';
                 }, 500);
             });
         });
 
-        // Add interactivity to doodle2
+        
         const doodle2 = document.querySelector('.doodle2');
         if (doodle2) {
             console.log('Doodle 2 found and ready for interaction.');
@@ -303,7 +297,7 @@
         }
 
         doodle2.addEventListener('click', () => {
-            doodle2.style.transform = 'translate(-50%, -50%) scale(1.2) rotate(360deg)'; // Reduced scale to 1.2
+            doodle2.style.transform = 'translate(-50%, -50%) scale(1.2) rotate(360deg)';
             setTimeout(() => {
                 doodle2.style.transform = 'translate(-50%, -50%)';
             }, 500);
