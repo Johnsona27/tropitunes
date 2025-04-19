@@ -716,9 +716,6 @@
             slideDiv.style.background = `linear-gradient(135deg, ${slideColor}, ${slideColor} 60%, ${adjustColor(slideColor, 20) || defaultColor})`;
 
             slideDiv.innerHTML = `
-                <div class="play-button" onclick="playSong(${index})" aria-label="Play ${song.title}">
-                    <i class="fa-solid fa-play"></i>
-                </div>
                 <h3>${song.title}</h3>
                 <div class="lyrics">
                     <p>${song.lyrics}</p>
@@ -779,13 +776,6 @@
             }
         }
 
-        const tabButtons = document.querySelectorAll('.tab-button');
-        tabButtons.forEach((button, idx) => {
-            button.addEventListener('click', () => {
-                switchSlide(idx); 
-            });
-        });
-
         swiper.on('slideChange', function () {
             const index = swiper.activeIndex; 
             switchSlide(index);
@@ -806,10 +796,6 @@
             } catch (e) {
                 return color; 
             }
-        }
-
-        function playSong(index) {
-            alert(`Playing song: ${songs[index].title}`);
         }
     </script>
 </body>
