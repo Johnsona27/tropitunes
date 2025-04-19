@@ -467,10 +467,10 @@
 
         .scroll-indicator {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
+            bottom: 5rem; /* Adjusted to move it above the navigation bar */
+            right: 1.5rem; /* Slightly moved inward for better visibility */
+            width: 40px; /* Reduced size */
+            height: 40px; /* Reduced size */
             background-color: var(--primary-color);
             border-radius: 50%;
             display: flex;
@@ -481,7 +481,7 @@
             transition: all 0.3s ease;
             opacity: 0;
             transform: translateY(20px);
-            z-index: 900;
+            z-index: 1100; /* Ensure it stays above other elements */
         }
 
         .scroll-indicator.visible {
@@ -496,7 +496,20 @@
 
         .scroll-indicator i {
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.2rem; /* Reduced icon size */
+        }
+
+        @media (max-width: 768px) {
+            .scroll-indicator {
+                bottom: 6rem; /* Adjusted for mobile to stay above the bottom navigation bar */
+                right: 1rem; /* Slightly moved inward for smaller screens */
+                width: 35px; /* Further reduced size for mobile */
+                height: 35px;
+            }
+
+            .scroll-indicator i {
+                font-size: 1rem; /* Reduced icon size for mobile */
+            }
         }
     </style>
 </head>
@@ -669,26 +682,29 @@
             modalSignificance.textContent = song.significance;
             modalImage.src = song.image;
             modalImage.alt = song.title;
-            
+
             modalBackdrop.style.display = 'block';
             modal.style.display = 'block';
-            
-            void modalBackdrop.offsetWidth;
-            void modal.offsetWidth;
-            
+
+            void modalBackdrop.offsetWidth; // Trigger reflow
+            void modal.offsetWidth; // Trigger reflow
+
             modalBackdrop.classList.add('active');
             modal.classList.add('active');
-            
+
+            // Prevent scrolling only when the modal is open
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             modalBackdrop.classList.remove('active');
             modal.classList.remove('active');
-            
+
             setTimeout(() => {
                 modalBackdrop.style.display = 'none';
                 modal.style.display = 'none';
+
+                // Restore scrolling when the modal is closed
                 document.body.style.overflow = '';
             }, 400);
         }
